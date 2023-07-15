@@ -4,7 +4,27 @@ type AccomodationNumber = {
   accomodationNumber: number;
 }
 
-function MainPage({accomodationNumber} : AccomodationNumber) : JSX.Element {
+type AccomodationData = {
+  photoSource: string;
+  isPremium: boolean;
+  price: number;
+  title: string;
+  type: string;
+  isFavorite: boolean;
+  rating: number;
+}
+
+const MOCKDATA: AccomodationData = {
+  photoSource: 'img/apartment-01.jpg',
+  isPremium: true,
+  price: 120,
+  title: 'Beautiful &amp; luxurious apartment at great location',
+  type: 'Apartment',
+  isFavorite: false,
+  rating: 5,
+}
+
+function MainPage({ accomodationNumber }: AccomodationNumber): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,8 +115,7 @@ function MainPage({accomodationNumber} : AccomodationNumber) : JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {[...Array(accomodationNumber)].map((item, index) => (<AccomodationCard key={index} />))}
-
+                {[...Array(accomodationNumber).keys()].map((item: number) => <AccomodationCard {...MOCKDATA} key={item} />)}
               </div>
             </section>
             <div className="cities__right-section">
