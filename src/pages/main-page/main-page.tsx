@@ -22,7 +22,7 @@ const MOCKDATA: AccomodationData = {
   type: 'Apartment',
   isFavorite: false,
   rating: 5,
-}
+};
 
 function MainPage({ accomodationNumber }: AccomodationNumber): JSX.Element {
   return (
