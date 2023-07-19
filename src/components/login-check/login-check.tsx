@@ -1,4 +1,4 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { AuthorizationStatus } from '../../const';
 import { AppRoute } from '../../const';
 

@@ -2,7 +2,6 @@ import { Helmet } from 'react-helmet-async';
 
 function FavoritesPage(): JSX.Element {
   return (
-
     <div className="page">
       <Helmet>
         <title>6 cities: favorites</title>
@@ -98,7 +97,7 @@ function FavoritesPage(): JSX.Element {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{ width: "100%" }} />
+                          <span style={{ width: '100%' }} />
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -144,7 +143,7 @@ function FavoritesPage(): JSX.Element {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{ width: "80%" }} />
+                          <span style={{ width: '80%' }} />
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
@@ -201,7 +200,7 @@ function FavoritesPage(): JSX.Element {
                       </div>
                       <div className="place-card__rating rating">
                         <div className="place-card__stars rating__stars">
-                          <span style={{ width: "100%" }} />
+                          <span style={{ width: '100%' }} />
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>

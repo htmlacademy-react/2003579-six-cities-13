@@ -69,8 +69,6 @@ function FavoritesEmptyPage(): JSX.Element {
         </a>
       </footer>
     </div>
-
-
   );
 }
 

@@ -1,4 +1,4 @@
-import {Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import AccomodationCard from '../../components/accomodation-card/accomodation-card';
 
 type AccomodationNumber = {
@@ -59,7 +59,6 @@ function MainPage({ accomodationNumber }: AccomodationNumber): JSX.Element {
           </div>
         </div>
       </header>
-
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -129,7 +128,6 @@ function MainPage({ accomodationNumber }: AccomodationNumber): JSX.Element {
         </div>
       </main>
     </div>
-
   );
 }
 

@@ -21,7 +21,9 @@ function App({ accomodationNumber }: AccomodationNumber): JSX.Element {
           <Route path={AppRoute.Favorites} element={
             <LoginCheck authorizationStatus={AuthorizationStatus.NoAuth}>
               <FavoritesPage />
-            </LoginCheck>} />
+            </LoginCheck>
+          }
+          />
           <Route path={AppRoute.Login} element={<LoginPage />} />
           <Route path={AppRoute.Offer} element={<OfferPage />} />
           <Route path="*" element={<PageNotFound />} />
