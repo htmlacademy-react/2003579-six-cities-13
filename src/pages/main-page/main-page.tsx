@@ -1,31 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import AccomodationCard from '../../components/accomodation-card/accomodation-card';
+import { AccomodationListItem } from '../../types/accomodation-item';
 
-type AccomodationNumber = {
-  accomodationNumber: number;
-}
-
-type AccomodationData = {
-  photoSource: string;
-  isPremium: boolean;
-  price: number;
-  title: string;
-  type: string;
-  isFavorite: boolean;
-  rating: number;
-}
-
-const MOCKDATA: AccomodationData = {
-  photoSource: 'img/apartment-01.jpg',
-  isPremium: true,
-  price: 120,
-  title: 'Beautiful &amp; luxurious apartment at great location',
-  type: 'Apartment',
-  isFavorite: false,
-  rating: 5,
-};
-
-function MainPage({ accomodationNumber }: AccomodationNumber): JSX.Element {
+function MainPage(offersData: AccomodationListItem[]): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -118,7 +95,7 @@ function MainPage({ accomodationNumber }: AccomodationNumber): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {[...Array(accomodationNumber).keys()].map((item: number) => <AccomodationCard {...MOCKDATA} key={item} />)}
+                {[...Array(offersData.length).keys()].map((item: number) => <AccomodationCard {...offersData[item]} key={offersData[item].id} />)}
               </div>
             </section>
             <div className="cities__right-section">

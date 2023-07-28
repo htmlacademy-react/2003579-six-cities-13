@@ -7,17 +7,14 @@ import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import MainPage from '../../pages/main-page/main-page';
 import PageNotFound from '../../pages/page-not-found/page-not-found';
+import { AccomodationListItem } from '../../types/accomodation-item';
 
-type AccomodationNumber = {
-  accomodationNumber: number;
-}
-
-function App({ accomodationNumber }: AccomodationNumber): JSX.Element {
+function App(offersData: AccomodationListItem[]): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route index path={AppRoute.Root} element={<MainPage accomodationNumber={accomodationNumber} />} />
+          <Route index path={AppRoute.Root} element={<MainPage {...offersData} />} />
           <Route path={AppRoute.Favorites} element={
             <LoginCheck authorizationStatus={AuthorizationStatus.NoAuth}>
               <FavoritesPage />

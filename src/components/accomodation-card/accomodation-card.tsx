@@ -1,22 +1,28 @@
-type AccomodationData = {
-  photoSource: string;
-  isPremium: boolean;
-  price: number;
-  title: string;
-  type: string;
-  isFavorite: boolean;
-  rating: number;
-}
+import { AccomodationListItem } from '../../types/accomodation-item';
+import { EventHandler, useState } from 'react';
 
-function AccomodationCard(props: AccomodationData): JSX.Element {
+function AccomodationCard(props: AccomodationListItem): JSX.Element {
+  const cardId = props.id;
+  const [isActiveCard, setActiveCard] = useState('');
+
+  function handleActiveChange (e : React.MouseEvent<HTMLTimeElement>) {
+    if(e.currentTarget != null) {
+      setActiveCard(e.currentTarget.id);
+    }
+  }
+
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card"
+    id={cardId} onMouseOver = {handleActiveChange} onMouseOut = {() => setActiveCard('')}>
+
+      {props.isPremium ?
       <div className="place-card__mark">
-        <span>{props.isPremium ? 'Premium' : ''}</span>
+        <span>Premium</span>
       </div>
+      : false}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={props.photoSource} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={props.previewImage} width="260" height="200" alt="Place image" />
         </a>
       </div>
       <div className="place-card__info">
