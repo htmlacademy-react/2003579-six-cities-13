@@ -1,8 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import AccomodationCard from '../../components/accomodation-card/accomodation-card';
 import { AccomodationListItem } from '../../types/accomodation-item';
+import OffersList from '../../components/offers-list/offers-list';
 
-function MainPage(offersData: AccomodationListItem[]): JSX.Element {
+type MainPageProps = {
+  offersData: AccomodationListItem[];
+}
+
+function MainPage({offersData}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -94,9 +98,7 @@ function MainPage(offersData: AccomodationListItem[]): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {[...Array(offersData.length).keys()].map((item: number) => <AccomodationCard {...offersData[item]} key={offersData[item].id} />)}
-              </div>
+              <OffersList offersData={offersData} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
