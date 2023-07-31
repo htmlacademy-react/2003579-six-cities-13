@@ -98,7 +98,9 @@ function MainPage({offersData}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offersData={offersData} />
+              <div className="cities__places-list places__list tabs__content">
+                {[...Array(offersData.length).keys()].map((item: number) => <AccomodationCard {...offersData[item]} key={offersData[item].id} />)}
+              </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
