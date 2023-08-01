@@ -1,6 +1,6 @@
-import { reviewArrType } from '../types/review-item';
+import { ReviewArrType } from '../types/review-item';
 
-export const generatedReviews: reviewArrType[] = [
+export const generatedReviews: ReviewArrType[] = [
   //cd9890b0-a25f-4011-a582-be647538e3c4
   [{
     id: '70dcfd41-b5e1-4da8-95a5-ff21d297c0ad',

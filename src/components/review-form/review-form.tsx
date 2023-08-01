@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-
 function ReviewForm(): JSX.Element {
   const [reviewFormData, setReviewFormData] = useState({
     rating: '',
@@ -9,7 +8,7 @@ function ReviewForm(): JSX.Element {
 
   function HandleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
-    setReviewFormData({ ...reviewFormData, [name]: value });
+    setReviewFormData((prevValues) => ({ ...prevValues, [name]: value }));
   }
 
   return (
