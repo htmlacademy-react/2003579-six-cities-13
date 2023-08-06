@@ -1,23 +1,32 @@
-type AccomodationData = {
-  photoSource: string;
-  isPremium: boolean;
-  price: number;
-  title: string;
-  type: string;
-  isFavorite: boolean;
-  rating: number;
-}
+import { generatePath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { AccomodationListItem } from '../../types/accomodation-item';
+import { useState } from 'react';
 
-function AccomodationCard(props: AccomodationData): JSX.Element {
+function AccomodationCard(props: AccomodationListItem): JSX.Element {
+  const [, setActiveCard] = useState('');
+
+  function handleActiveChange (e : React.MouseEvent<HTMLTimeElement>) {
+    if(e.currentTarget !== null) {
+      setActiveCard(e.currentTarget.id);
+    }
+  }
+
   return (
-    <article className="cities__card place-card">
-      <div className="place-card__mark">
-        <span>{props.isPremium ? 'Premium' : ''}</span>
-      </div>
+    <article className="cities__card place-card"
+      id={props.id} onMouseOver = {handleActiveChange} onMouseOut = {() => setActiveCard('')}
+    >
+
+      {props.isPremium ?
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+        : false}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src={props.photoSource} width="260" height="200" alt="Place image" />
-        </a>
+        <Link to={generatePath(AppRoute.Offer, {id: props.id})}>
+          <img className="place-card__image" src={props.previewImage} width="260" height="200" alt="Place image" />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -39,7 +48,7 @@ function AccomodationCard(props: AccomodationData): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{props.title}</a>
+          <Link to={generatePath(AppRoute.Offer, {id: props.id})}>{props.title}</Link>
         </h2>
         <p className="place-card__type">{props.type}</p>
       </div>
