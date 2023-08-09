@@ -1,4 +1,4 @@
-export type ReviewItem = {
+export type ReviewItemType = {
   id: string;
   comment: string;
   date: string;
@@ -11,4 +11,4 @@ export type ReviewItem = {
 };
 
 
-export type ReviewArrType = ReviewItem[];
+export type ReviewArrType = ReviewItemType[];

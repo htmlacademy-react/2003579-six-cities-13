@@ -1,12 +1,12 @@
 type ApartmentType = 'apartment' | 'room' | 'house' | 'hotel';
 
-type Location = {
+export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
 
-type City = {
+export type City = {
   name: string;
   location: Location;
 }
