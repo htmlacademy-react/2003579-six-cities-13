@@ -1,12 +1,24 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { AccomodationListItem } from '../../types/accomodation-item';
 import OffersList from '../../components/offers-list/offers-list';
+import Map from '../../components/map/map';
+import { OffersRole } from '../../const';
+import { City } from '../../types/accomodation-item';
+import { MapRole } from '../../const';
 
 type MainPageProps = {
   offersData: AccomodationListItem[];
+  city: City;
 }
 
-function MainPage({offersData}: MainPageProps): JSX.Element {
+function MainPage({offersData, city}: MainPageProps): JSX.Element {
+  const [selectedOffer, setSelectedOffer] = useState<string | undefined>(undefined);
+
+  const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
+    setSelectedOffer(e.currentTarget.id);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -98,10 +110,10 @@ function MainPage({offersData}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offersData={offersData} />
+              <OffersList offersData={offersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={city} points={offersData} selectedPoint={selectedOffer} role={MapRole.MainPageMap}/>
             </div>
           </div>
         </div>

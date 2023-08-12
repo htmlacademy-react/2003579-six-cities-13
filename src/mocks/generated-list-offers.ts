@@ -10,15 +10,15 @@ export const generatedListOffers: AccomodationListItem[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.37454,
-        longitude: 4.897976,
-        zoom: 13
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
+        zoom: 10
       }
     },
     location: {
-      latitude: 52.36554,
-      longitude: 4.911976,
-      zoom: 16
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 10
     },
     isFavorite: false,
     isPremium: true,
@@ -33,15 +33,15 @@ export const generatedListOffers: AccomodationListItem[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.37454,
-        longitude: 4.897976,
-        zoom: 13
+        latitude: 52.3609553943508,
+        longitude:  4.85309666406198,
+        zoom: 10
       }
     },
     location: {
-      latitude: 52.385540000000006,
-      longitude: 4.886976,
-      zoom: 16
+      latitude: 52.3609553943508,
+      longitude:  4.85309666406198,
+      zoom: 10
     },
     isFavorite: false,
     isPremium: false,
@@ -56,15 +56,15 @@ export const generatedListOffers: AccomodationListItem[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.37454,
-        longitude: 4.897976,
-        zoom: 13
+        latitude: 52.3909553943508,
+        longitude: 4.929309666406198,
+        zoom: 10
       }
     },
     location: {
-      latitude: 52.37454,
-      longitude: 4.881976,
-      zoom: 16
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 10
     },
     isFavorite: false,
     isPremium: true,
@@ -79,15 +79,15 @@ export const generatedListOffers: AccomodationListItem[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.37454,
-        longitude: 4.897976,
-        zoom: 13
+        latitude: 52.3809553943508,
+        longitude: 4.939309666406198,
+        zoom: 10
       }
     },
     location: {
-      latitude: 52.367540000000005,
-      longitude: 4.883976,
-      zoom: 16
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 10
     },
     isFavorite: false,
     isPremium: true,
