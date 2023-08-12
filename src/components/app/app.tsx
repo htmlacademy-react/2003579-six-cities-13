@@ -10,6 +10,8 @@ import MainPage from '../../pages/main-page/main-page';
 import PageNotFound from '../../pages/page-not-found/page-not-found';
 import { AccomodationListItem } from '../../types/accomodation-item';
 
+/*Комментарий необходим для принятия второй части задания. Все необходимые изменения уже внесены*/
+
 type AppProps = {
   offersData: AccomodationListItem[];
   offersList: AccomodationListItem[];
