@@ -7,7 +7,6 @@ type NearbyOffersListProps = {
 }
 
 function NearbyOffersList({offersData} : NearbyOffersListProps) : JSX.Element {
-  offersData = offersData.slice(0,3);
 
   return(
     <OffersList offersData={offersData} role={OffersRole.OfferPageNearPlaces} />

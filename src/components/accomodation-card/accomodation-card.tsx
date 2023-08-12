@@ -15,12 +15,15 @@ type AccomodationCardProps = {
 function AccomodationCard(props: AccomodationCardProps): JSX.Element {
   const [, setActiveCard] = useState('');
 
-  function handleActiveChange (e : React.MouseEvent<HTMLTimeElement>) {
+  function handleActiveChange (e : React.MouseEvent<HTMLElement>) {
     if(e.currentTarget !== null) {
       setActiveCard(e.currentTarget.id);
-      //if(props.onMouseOverOffer != null) {
-      //  props.onMouseOverOffer();
-      //}
+
+      if(props.role === OffersRole.OfferPageNearPlaces) {
+        props.onMouseOverOffer = undefined;
+      } else if (props.role === OffersRole.MainPageOffers && props.onMouseOverOffer !== undefined) {
+        props.onMouseOverOffer(e);
+      }
     }
   }
 

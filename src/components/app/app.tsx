@@ -29,7 +29,7 @@ function App({offersData, offersList, city}: AppProps): JSX.Element {
           }
           />
           <Route path={AppRoute.Login} element={<LoginPage />} />
-          <Route path={AppRoute.Offer} element={<OfferPage />} />
+          <Route path={AppRoute.Offer} element={<OfferPage offersData={offersData}/>} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

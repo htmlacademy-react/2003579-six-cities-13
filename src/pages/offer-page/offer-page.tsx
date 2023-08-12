@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { AccomodationDetailedItem } from '../../types/accomodation-item';
+import { AccomodationDetailedItem, AccomodationListItem } from '../../types/accomodation-item';
 import { generatedDetailedOffers } from '../../mocks/generated-detailed-offers';
 import { generatedReviews } from '../../mocks/generated-reviews';
 import { useParams } from 'react-router-dom';
@@ -10,8 +10,13 @@ import Map from '../../components/map/map';
 import { City } from '../../types/accomodation-item';
 import { MapRole } from '../../const';
 
-function OfferPage(): JSX.Element {
+type OfferPageProps = {
+  offersData: AccomodationListItem[];
+}
+
+function OfferPage({offersData}: OfferPageProps): JSX.Element {
   const { id } = useParams();
+  const slicedOffersData = offersData.slice(0, 3);
 
   function findOfferById(offer: AccomodationDetailedItem) {
     if (id !== undefined && offer.id !== undefined) {
@@ -113,7 +118,7 @@ function OfferPage(): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <NearbyOffersList offersData={generatedListOffers}/>
+          <NearbyOffersList offersData={slicedOffersData}/>
         </section>
       </div>
     </main>
