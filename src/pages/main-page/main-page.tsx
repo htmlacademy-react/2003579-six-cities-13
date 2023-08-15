@@ -6,17 +6,31 @@ import Map from '../../components/map/map';
 import { OffersRole } from '../../const';
 import { City } from '../../types/accomodation-item';
 import { MapRole } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { switchCity, fillOffersList } from '../../store/action';
+import LocationsList from '../../components/locations-list/locations-list';
 
 type MainPageProps = {
   offersData: AccomodationListItem[];
-  city: City;
+  cities: string[];
 }
 
-function MainPage({offersData, city}: MainPageProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<string | undefined>(undefined);
+function MainPage({offersData, cities}: MainPageProps): JSX.Element {
+  const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
+
+  const city = useAppSelector((state) => state.city);
+  const chosenCityOffersData = offersData.filter((item) => item.city.name === city);
+
+  /*const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
+    const target = e.target as unknown as AccomodationListItem;
+
+    if(target !== undefined) {
+      setSelectedOffer(target);
+    }
+  };*/
 
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
-    setSelectedOffer(e.currentTarget.id);
+    setSelectedOfferId(e.currentTarget.id);
   };
 
   return (
@@ -55,46 +69,13 @@ function MainPage({offersData, city}: MainPageProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <LocationsList citiesNamesArr={cities} />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{chosenCityOffersData.length} places to stay in {city}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -113,7 +94,7 @@ function MainPage({offersData, city}: MainPageProps): JSX.Element {
               <OffersList offersData={offersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
             </section>
             <div className="cities__right-section">
-              <Map city={city} points={offersData} selectedPoint={selectedOffer} role={MapRole.MainPageMap}/>
+              <Map points={chosenCityOffersData} selectedPointId={selectedOfferId} role={MapRole.MainPageMap}/>
             </div>
           </div>
         </div>

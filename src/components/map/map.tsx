@@ -5,13 +5,12 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/use-map';
 import { AccomodationListItem } from '../../types/accomodation-item';
-import { City } from '../../types/accomodation-item';
 import { MapRole } from '../../const';
+import AccomodationCard from '../accomodation-card/accomodation-card';
 
 type MapProps = {
-  city: City;
   points: AccomodationListItem[];
-  selectedPoint: string | undefined;
+  selectedPointId: string | undefined;
   role: MapRole;
 }
 
@@ -34,16 +33,24 @@ function sliceOffersArr(arr:AccomodationListItem[], role: MapRole) {
   return arr;
 }
 
+function assignSelectedPoint(selectedPointId: string | undefined, points: AccomodationListItem[]) {
+  if(selectedPointId !== undefined) {
+    const index = points.findIndex((point) => point.id === selectedPointId)
+    return points[index];
+  }
+
+  return points[0];
+}
+
 function Map(props: MapProps) : JSX.Element {
-  const {city/*, points*/, selectedPoint, role} = props;
+  const {role} = props;
+  const selectedPoint = assignSelectedPoint(props.selectedPointId, props.points) as AccomodationListItem;
 
   const points = sliceOffersArr(props.points, role);
 
-  //const selectedOfferIndex = points.findIndex((element) => element.id === selectedPoint);
-  //const selectedOffer = points[selectedOfferIndex];
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, selectedPoint);
 
   useEffect(() => {
     if (map) {
@@ -57,7 +64,7 @@ function Map(props: MapProps) : JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint
+            selectedPoint !== undefined && point.id === selectedPoint.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -77,7 +84,7 @@ function Map(props: MapProps) : JSX.Element {
         {'offer__map' : role === MapRole.OfferPageMap},
       )}
 
-      /*style={{height: '100%', width: '100%', maxWidth: '572px'}}*/ ref={mapRef}
+       ref={mapRef}
     >
     </section>
   );

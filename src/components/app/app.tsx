@@ -10,20 +10,20 @@ import MainPage from '../../pages/main-page/main-page';
 import PageNotFound from '../../pages/page-not-found/page-not-found';
 import { AccomodationListItem } from '../../types/accomodation-item';
 
-/*Комментарий необходим для принятия второй части задания. Все необходимые изменения уже внесены*/
 
 type AppProps = {
   offersData: AccomodationListItem[];
   offersList: AccomodationListItem[];
-  city: City;
+  //city: City;
+  cities: string[];
 }
 
-function App({offersData, offersList, city}: AppProps): JSX.Element {
+function App({offersData, offersList, cities}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route index path={AppRoute.Root} element={<MainPage city={city} offersData={offersData} />} />
+          <Route index path={AppRoute.Root} element={<MainPage cities={cities} offersData={offersData} />} />
           <Route path={AppRoute.Favorites} element={
             <LoginCheck authorizationStatus={AuthorizationStatus.Auth}>
               <FavoritesPage offersList = {offersList}/>
