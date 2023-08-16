@@ -37,8 +37,7 @@ function sliceOffersArr(arr:AccomodationListItem[], role: MapRole) {
 
 function assignSelectedPoint(selectedPointId: string | undefined, points: AccomodationListItem[], city: string) {
   if(selectedPointId !== undefined) {
-    const index = points.findIndex((point) => point.id === selectedPointId);
-    return points[index]?.location;
+    return points.find((point) => point.id === selectedPointId);
   }
 
   if(points[0] !== undefined) {
@@ -55,9 +54,6 @@ function Map(props: MapProps) : JSX.Element {
   const selectedPoint = assignSelectedPoint(props.selectedPointId, props.points, city) as Location;
 
   const points = sliceOffersArr(props.points, role);
-
-  //console.log(points);
-
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, selectedPoint);

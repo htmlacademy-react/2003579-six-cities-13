@@ -5,10 +5,9 @@ import { switchCity, fillOffersList } from '../../store/action';
 
 type LocationsListProps = {
   citiesNamesArr: string[];
-  offersData: AccomodationListItem[];
 }
 
-function LocationsList({citiesNamesArr, offersData} : LocationsListProps): JSX.Element {
+function LocationsList({citiesNamesArr} : LocationsListProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   function handleTabClick(e : React.MouseEvent<HTMLElement>) {
@@ -22,10 +21,8 @@ function LocationsList({citiesNamesArr, offersData} : LocationsListProps): JSX.E
     //const cityName = target.querySelector('span')?.textContent;
     const cityName = target.textContent as Cities;
 
-    if(cityName !== null && cityName !== undefined) {
+    if (cityName) {
       dispatch(switchCity(cityName));
-      const chosenCityOffersData = offersData.filter((item) => item.city.name === cityName);
-      dispatch(fillOffersList(chosenCityOffersData));
     }
   }
 

@@ -10,19 +10,6 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
-  /*let cityCenter: Location;
-
-  if(selectedPoint === undefined) {
-     cityCenter = {
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
-      zoom: 10,
-  }} else {
-   cityCenter = selectedPoint.location;
-  }*/
-
-  //console.log(cityCenter);
-
   useEffect(() => {
     if(mapRef.current !== null && !isRenderedRef.current && selectedPoint !== undefined) {
       const instance = new Map(mapRef.current, {
@@ -44,7 +31,16 @@ function useMap(
       isRenderedRef.current = true;
     }
 
-  }, [mapRef, selectedPoint]);
+  }, [mapRef]);
+
+  useEffect(() => {
+    if (map && selectedPoint?.latitude && selectedPoint?.longitude) {
+      map.setView({
+        lat: selectedPoint.latitude,
+        lng: selectedPoint.longitude,
+      });
+    }
+  }, [selectedPoint]);
 
   return map;
 }
