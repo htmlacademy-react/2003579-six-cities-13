@@ -5,7 +5,6 @@ import { store } from './store';
 import App from './components/app/app';
 import { generatedListOffers } from './mocks/generated-list-offers';
 import { generatedListOffersAll } from './mocks/general-offers-list-all';
-import { mockCity } from './mocks/mock-city';
 import { citiesArr } from './const';
 
 

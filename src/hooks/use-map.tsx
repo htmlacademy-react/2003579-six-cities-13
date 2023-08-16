@@ -1,23 +1,36 @@
 import { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
-import { AccomodationListItem } from '../types/accomodation-item';
+import { Location } from '../types/accomodation-item';
 
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  selectedPoint: AccomodationListItem
+  selectedPoint: Location
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
+  /*let cityCenter: Location;
+
+  if(selectedPoint === undefined) {
+     cityCenter = {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 10,
+  }} else {
+   cityCenter = selectedPoint.location;
+  }*/
+
+  //console.log(cityCenter);
+
   useEffect(() => {
-    if(mapRef.current !== null && !isRenderedRef.current) {
+    if(mapRef.current !== null && !isRenderedRef.current && selectedPoint !== undefined) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: selectedPoint.location.latitude,
-          lng: selectedPoint.location.longitude,
+          lat: selectedPoint.latitude,
+          lng: selectedPoint.longitude,
         },
-        zoom: selectedPoint.location.zoom
+        zoom: selectedPoint.zoom
       });
 
       const tiles = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

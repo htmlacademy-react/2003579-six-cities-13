@@ -4,10 +4,8 @@ import { AccomodationListItem } from '../../types/accomodation-item';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { OffersRole } from '../../const';
-import { City } from '../../types/accomodation-item';
 import { MapRole } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { switchCity, fillOffersList } from '../../store/action';
+import {useAppSelector } from '../../hooks';
 import LocationsList from '../../components/locations-list/locations-list';
 
 type MainPageProps = {
@@ -19,15 +17,9 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
   const city = useAppSelector((state) => state.city);
-  const chosenCityOffersData = offersData.filter((item) => item.city.name === city);
 
-  /*const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
-    const target = e.target as unknown as AccomodationListItem;
-
-    if(target !== undefined) {
-      setSelectedOffer(target);
-    }
-  };*/
+  //const chosenCityOffersData = offersData.filter((item) => item.city.name === city);
+  const chosenCityOffersData = useAppSelector((state) => state.offersList);
 
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
     setSelectedOfferId(e.currentTarget.id);
@@ -69,7 +61,7 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationsList citiesNamesArr={cities} />
+          <LocationsList citiesNamesArr={cities} offersData={offersData} />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -94,7 +86,7 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
               <OffersList offersData={offersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
             </section>
             <div className="cities__right-section">
-              <Map points={chosenCityOffersData} selectedPointId={selectedOfferId} role={MapRole.MainPageMap}/>
+              <Map city={city} points={chosenCityOffersData} selectedPointId={selectedOfferId} role={MapRole.MainPageMap}/>
             </div>
           </div>
         </div>

@@ -1,43 +1,44 @@
-import { AccomodationListItem } from "../../types/accomodation-item";
-import { citiesArr } from "../../const";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { switchCity, fillOffersList } from "../../store/action";
+import { AccomodationListItem } from '../../types/accomodation-item';
+import { Cities} from '../../const';
+import { useAppDispatch} from '../../hooks';
+import { switchCity, fillOffersList } from '../../store/action';
 
 type LocationsListProps = {
   citiesNamesArr: string[];
-  //offersData: AccomodationListItem[];
+  offersData: AccomodationListItem[];
 }
 
-function LocationsList({citiesNamesArr/*, offersData*/} : LocationsListProps): JSX.Element {
+function LocationsList({citiesNamesArr, offersData} : LocationsListProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   function handleTabClick(e : React.MouseEvent<HTMLElement>) {
-    let previousActiveTab = document.querySelector('.tabs__item--active');
+    const previousActiveTab = document.querySelector('.tabs__item--active');
     previousActiveTab?.classList.remove('tabs__item--active');
 
     const target = e.target as Element;
 
     target.classList.add('tabs__item--active');
 
-    const cityName = target.querySelector('span')?.textContent;
+    //const cityName = target.querySelector('span')?.textContent;
+    const cityName = target.textContent as Cities;
 
     if(cityName !== null && cityName !== undefined) {
       dispatch(switchCity(cityName));
+      const chosenCityOffersData = offersData.filter((item) => item.city.name === cityName);
+      dispatch(fillOffersList(chosenCityOffersData));
     }
   }
 
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        {citiesNamesArr.map((city) => {
-          return (
-            <li className="locations__item" key={city} onClick = {handleTabClick}>
-              <a className="locations__item-link tabs__item" href="#">
-                <span>city</span>
-              </a>
-            </li>
-          );
-        })}
+        {citiesNamesArr.map((city) => (
+          <li className="locations__item" key={city} >
+            <a className="locations__item-link tabs__item" href="#" onClick = {handleTabClick}>
+              <span>{city}</span>
+            </a>
+          </li>
+        ))}
       </ul>
     </section>
   );
