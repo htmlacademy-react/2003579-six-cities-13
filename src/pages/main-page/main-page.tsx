@@ -1,12 +1,13 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AccomodationListItem } from '../../types/accomodation-item';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { OffersRole } from '../../const';
 import { MapRole } from '../../const';
-import {useAppSelector } from '../../hooks';
+import {useAppSelector, useAppDispatch } from '../../hooks';
 import LocationsList from '../../components/locations-list/locations-list';
+import { fillOffersList } from '../../store/action';
 
 type MainPageProps = {
   offersData: AccomodationListItem[];
@@ -16,10 +17,15 @@ type MainPageProps = {
 function MainPage({offersData, cities}: MainPageProps): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
+  const dispatch = useAppDispatch();
+
   const city = useAppSelector((state) => state.city);
 
-  //const chosenCityOffersData = offersData.filter((item) => item.city.name === city);
   const chosenCityOffersData = useAppSelector((state) => state.offersList);
+
+  useEffect(() => {
+    dispatch(fillOffersList(offersData.filter((item) => item.city.name === city)));
+  }, [city]);
 
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
     setSelectedOfferId(e.currentTarget.id);
@@ -61,7 +67,7 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationsList citiesNamesArr={cities} offersData={offersData} />
+          <LocationsList citiesNamesArr={cities} /*offersData={offersData}*/ />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -83,7 +89,7 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offersData={offersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
+              <OffersList offersData={chosenCityOffersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
             </section>
             <div className="cities__right-section">
               <Map city={city} points={chosenCityOffersData} selectedPointId={selectedOfferId} role={MapRole.MainPageMap}/>
