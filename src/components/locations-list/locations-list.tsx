@@ -13,7 +13,7 @@ function LocationsList({ citiesNamesArr/*, offersData*/ }: LocationsListProps): 
   function handleTabClick(e: React.MouseEvent<HTMLElement>) {
     const target = e.target as Element;
 
-    target.classList.add('tabs__item--active');
+    //target.classList.add('tabs__item--active');
 
     const cityName = target.textContent as Cities;
 

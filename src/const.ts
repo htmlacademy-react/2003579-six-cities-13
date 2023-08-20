@@ -38,3 +38,13 @@ export enum OffersRole {
   MainPageOffers = 'MAIN_PAGE_OFFERS',
   OfferPageNearPlaces = 'OFFER_PAGE_NEAR_PLACES',
 }
+
+export enum SortingMode {
+  default = 'Popular',
+  sortPriceHighToLow = 'Price: high to low',
+  sortPriceLowToHigh = 'Price: low to high',
+  topRatedFirst = 'Top rated first',
+}
+
+export const SORTING_MODES_ARR = ['Popular', 'Price: high to low', 'Price: low to high', 'Top rated first'];
+
