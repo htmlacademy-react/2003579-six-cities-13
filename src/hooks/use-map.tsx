@@ -1,23 +1,26 @@
 import { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
-import { City } from '../types/accomodation-item';
-
+import { mockCities } from '../mocks/mock-city';
+import { Cities } from '../const';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  city: City
+  city: Cities
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
+  const centerPoint = mockCities.find((cityItem) => cityItem.name === city);
+
   useEffect(() => {
-    if(mapRef.current !== null && !isRenderedRef.current) {
+
+    if(mapRef.current !== null && !isRenderedRef.current && centerPoint !== undefined) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: city.location.latitude,
-          lng: city.location.longitude,
+          lat: centerPoint.location.latitude,
+          lng: centerPoint.location.longitude,
         },
-        zoom: city.location.zoom
+        zoom: centerPoint.location.zoom
       });
 
       const tiles = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -31,7 +34,16 @@ function useMap(
       isRenderedRef.current = true;
     }
 
-  }, [mapRef, city]);
+  }, [mapRef, centerPoint]);
+
+  useEffect(() => {
+    if (map && centerPoint?.location.latitude && centerPoint?.location.longitude) {
+      map.setView({
+        lat: centerPoint.location.latitude,
+        lng: centerPoint.location.longitude,
+      });
+    }
+  }, [centerPoint]);
 
   return map;
 }

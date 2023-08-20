@@ -4,15 +4,15 @@ import 'leaflet/dist/leaflet.css';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/use-map';
-import { AccomodationListItem } from '../../types/accomodation-item';
-import { City } from '../../types/accomodation-item';
+import { AccomodationListItem} from '../../types/accomodation-item';
 import { MapRole } from '../../const';
+import { Cities } from '../../const';
 
 type MapProps = {
-  city: City;
   points: AccomodationListItem[];
-  selectedPoint: string | undefined;
+  selectedPointId: string | undefined;
   role: MapRole;
+  city: Cities;
 }
 
 const defaultCustomIcon = new Icon({
@@ -35,12 +35,9 @@ function sliceOffersArr(arr:AccomodationListItem[], role: MapRole) {
 }
 
 function Map(props: MapProps) : JSX.Element {
-  const {city/*, points*/, selectedPoint, role} = props;
+  const {role, city} = props;
 
   const points = sliceOffersArr(props.points, role);
-
-  //const selectedOfferIndex = points.findIndex((element) => element.id === selectedPoint);
-  //const selectedOffer = points[selectedOfferIndex];
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -57,7 +54,7 @@ function Map(props: MapProps) : JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint
+            point.id === props.selectedPointId
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -68,7 +65,7 @@ function Map(props: MapProps) : JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, props.selectedPointId]);
 
   return (
     <section
@@ -77,7 +74,7 @@ function Map(props: MapProps) : JSX.Element {
         {'offer__map' : role === MapRole.OfferPageMap},
       )}
 
-      /*style={{height: '100%', width: '100%', maxWidth: '572px'}}*/ ref={mapRef}
+      ref={mapRef}
     >
     </section>
   );

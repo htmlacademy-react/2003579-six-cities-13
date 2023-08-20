@@ -11,12 +11,8 @@ type OffersListProps = {
 
 function OffersList({ offersData, onMouseOverOffer, role }: OffersListProps): JSX.Element {
 
-  //const handleMouseOverMarker = (e:React.MouseEvent<HTMLElement>) => {
-  //  return e.currentTarget.id;
-  //}
-
   return (
-    <div /*className="cities__places-list places__list tabs__content" */
+    <div
       className={cn('places__list',
         {'near-places__list' : role === OffersRole.OfferPageNearPlaces},
         {'tabs__content' : role === OffersRole.MainPageOffers},
