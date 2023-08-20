@@ -19,7 +19,6 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
   const dispatch = useAppDispatch();
-
   const city = useAppSelector((state) => state.city);
 
   const chosenCityOffersData = useAppSelector((state) => state.offersList);
@@ -31,6 +30,10 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
     setSelectedOfferId(e.currentTarget.id);
   };
+
+  useEffect(() => {
+    dispatch(fillOffersList(offersData.filter((item) => item.city.name === city)));
+  }, [city]);
 
   return (
     <div className="page page--gray page--main">

@@ -6,7 +6,7 @@ import { SortingMode } from '../const';
 export const Action = {
   switchCity: 'switchCity',
   fillOffersList: 'fillOffersList',
-  sortOffersList: 'sortOffersList',
+  changeSortingMode: 'changeSortingMode',
 };
 
 export const switchCity = createAction(Action.switchCity, (city: Cities) => ({
@@ -17,6 +17,6 @@ export const fillOffersList = createAction(Action.fillOffersList, (offersList: A
   payload: offersList,
 }));
 
-export const sortOffersList = createAction(Action.sortOffersList, (sortingMode: SortingMode) => ({
+export const changeSortingMode = createAction(Action.changeSortingMode, (sortingMode: SortingMode) => ({
   payload: sortingMode,
 }));

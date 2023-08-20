@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Cities } from '../const';
 import { generatedListOffers } from '../mocks/generated-list-offers';
-import { switchCity, fillOffersList, sortOffersList } from './action';
+import { switchCity, fillOffersList, changeSortingMode } from './action';
 import { AccomodationListItem } from '../types/accomodation-item';
 import { SortingMode } from '../const';
 
@@ -26,7 +26,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(fillOffersList, (state, action) => {
       state.offersList = action.payload;
     })
-    .addCase(sortOffersList, (state, action) => {
+    .addCase(changeSortingMode, (state, action) => {
       state.sortingMode = action.payload;
     });
 });

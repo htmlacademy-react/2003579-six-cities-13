@@ -1,44 +1,34 @@
-import { useState } from 'react';
+import { useRef, useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { SortingMode, SORTING_MODES_ARR } from '../../const';
 import cn from 'classnames';
 import { sortPriceHighToLow, sortPriceLowToHigh, topRatedFirst } from '../../utils';
 import { AccomodationListItem } from '../../types/accomodation-item';
-import { fillOffersList, sortOffersList } from '../../store/action';
+import { fillOffersList, changeSortingMode } from '../../store/action';
+import {useOnClickOutside} from 'usehooks-ts';
 
 type SortingProps = {
   offersList: AccomodationListItem[];
 }
 
 function Sorting({ offersList }: SortingProps): JSX.Element {
-  const [sortignMode, setSortingMode] = useState<SortingMode | undefined>(undefined);
   const [optionsListToggle, setOptionsListToggle] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const sortingMode = useAppSelector((state) => state.sortingMode);
   const initialOffersList = offersList;
 
-  function handleSortingFormClick() {
-    if(optionsListToggle === false) {
-      setOptionsListToggle(true);
-    }
+  const formRef = useRef(null);
+
+  function handleClickOutside() {
+    setOptionsListToggle(false);
   }
 
-  /*function handleMouseOver(e: React.MouseEvent<HTMLElement>) {
-    if (optionsListToggle === false) {
-      setOptionsListToggle(true);
-    }
-  }
-
-  function handleMouseOut(e: React.MouseEvent<HTMLElement>) {
-    if (optionsListToggle === true) {
-      setOptionsListToggle(false);
-    }
-  }*/
+  useOnClickOutside(formRef, handleClickOutside);
 
   function handleSortClick(e: React.MouseEvent<HTMLElement>) {
     const target = e.target as Element;
     const sortingTitle = target.textContent as SortingMode;
-    dispatch(sortOffersList(sortingTitle));
+    dispatch(changeSortingMode(sortingTitle));
 
     switch (sortingTitle) {
       case SortingMode.default:
@@ -57,9 +47,9 @@ function Sorting({ offersList }: SortingProps): JSX.Element {
   }
 
   return (
-    <form className="places__sorting" action="#" method="get" /*onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}*/>
+    <form className="places__sorting" action="#" method="get" ref={formRef} onClick={() => setOptionsListToggle(true)}/*onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}*/ >
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
+      <span className="places__sorting-type" tabIndex={0} >
         Popular
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
@@ -67,16 +57,17 @@ function Sorting({ offersList }: SortingProps): JSX.Element {
       </span>
       <ul className={cn('places__options places__options--custom',
         { 'places__options--opened': optionsListToggle === true }
-      )}>
-        {SORTING_MODES_ARR.map((sortingTitle) => {
-          return (
-            <li
-              className={cn('places__option',
-                { 'places__option--active': sortingTitle === sortingMode }
-              )}
-              tabIndex={0} onClick={handleSortClick}>{sortingTitle}</li>
-          );
-        })}
+      )}
+      >
+        {SORTING_MODES_ARR.map((sortingTitle) => (
+          <li key={sortingTitle}
+            className={cn('places__option',
+              { 'places__option--active': sortingTitle === sortingMode }
+            )}
+            tabIndex={0} onClick={(e) => handleSortClick(e)}
+          >{sortingTitle}
+          </li>
+        ))}
       </ul>
     </form>
   );
