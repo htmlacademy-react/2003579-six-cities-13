@@ -1,13 +1,26 @@
 import { Helmet } from 'react-helmet-async';
-import { AccomodationListItem } from '../../types/accomodation-item';
+import FavoritesEmptyPage from './favorites-empty-page';
+import { store } from '../../store';
+import { useAppSelector } from '../../hooks';
+import { fetchFavoritesListAction } from '../../store/api-actions';
 
 import FavoritesList from '../../components/favorites-list/favorites-list';
 
-type FavoritesPageProps = {
-  offersList: AccomodationListItem[];
-}
+// type FavoritesPageProps = {
+//   offersList: AccomodationListItem[];
+// }
 
-function FavoritesPage({ offersList }: FavoritesPageProps): JSX.Element {
+function FavoritesPage(/*{ offersList }: FavoritesPageProps*/): JSX.Element {
+
+  store.dispatch(fetchFavoritesListAction());
+  const favoritesList = useAppSelector((state) => state.favoritesList);
+
+  if(favoritesList.length === 0) {
+    return (
+      <FavoritesEmptyPage />
+    );
+  }
+
   return (
     <div className="page">
       <Helmet>
@@ -52,7 +65,7 @@ function FavoritesPage({ offersList }: FavoritesPageProps): JSX.Element {
         </div>
       </header>
       <main className="page__main page__main--favorites">
-        <FavoritesList offersList={offersList}/>
+        <FavoritesList offersList={favoritesList}/>
       </main>
       <footer className="footer container">
         <a className="footer__logo-link" href="main.html">

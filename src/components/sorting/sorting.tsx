@@ -10,7 +10,6 @@ import {useOnClickOutside} from 'usehooks-ts';
 type SortingProps = {
   offersList: AccomodationListItem[];
 }
-//Формальные комментарии для смерживания
 
 function Sorting({ offersList }: SortingProps): JSX.Element {
   const [optionsListToggle, setOptionsListToggle] = useState<boolean>(false);

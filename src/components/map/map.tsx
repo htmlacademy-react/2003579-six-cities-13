@@ -6,13 +6,12 @@ import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/use-map';
 import { AccomodationListItem} from '../../types/accomodation-item';
 import { MapRole } from '../../const';
-import { Cities } from '../../const';
 
 type MapProps = {
   points: AccomodationListItem[];
   selectedPointId: string | undefined;
   role: MapRole;
-  city: Cities;
+  city: string;
 }
 
 const defaultCustomIcon = new Icon({
