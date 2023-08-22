@@ -1,32 +1,33 @@
 import { Helmet } from 'react-helmet-async';
-import { AccomodationDetailedItem, AccomodationListItem } from '../../types/accomodation-item';
 import { generatedDetailedOffers } from '../../mocks/generated-detailed-offers';
 import { generatedReviews } from '../../mocks/generated-reviews';
-import { useParams } from 'react-router-dom';
+//import { useParams } from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list';
 import { generatedListOffers } from '../../mocks/generated-list-offers';
 import Map from '../../components/map/map';
-import { City } from '../../types/accomodation-item';
 import { MapRole } from '../../const';
+import { useAppSelector } from '../../hooks';
 
-type OfferPageProps = {
-  offersData: AccomodationListItem[];
-}
+// type OfferPageProps = {
+//   offersData: AccomodationListItem[];
+// }
 
-function OfferPage({offersData}: OfferPageProps): JSX.Element {
-  const { id } = useParams();
-  const slicedOffersData = offersData.slice(0, 3);
+function OfferPage(/*{offersData}: OfferPageProps*/): JSX.Element {
+  //const { id } = useParams();
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffersList);
+  const slicedNearbyOffersList = nearbyOffers.slice(0, 3);
+  const offer = generatedDetailedOffers[0]; //ВРЕМЕННО - ПОТОМ ЗАМЕНИТЬ
 
-  function findOfferById(offer: AccomodationDetailedItem) {
+  /*function findOfferById(offer: AccomodationDetailedItem) {  ///НЕ УДАЛЯТЬ!!!!
     if (id !== undefined && offer.id !== undefined) {
       return offer.id === id;
     }
-  }
+  }*/
 
-  const offer = generatedDetailedOffers.find(findOfferById);
+  //const offer = generatedDetailedOffers.find(findOfferById);
 
-  const city: City = offer!.city;
+  const cityName: string = offer.city.name;
 
   return (
     <main className="page__main page__main--offer">
@@ -113,12 +114,12 @@ function OfferPage({offersData}: OfferPageProps): JSX.Element {
             <ReviewsList reviewsArr={generatedReviews[0]}/>
           </div>
         </div>
-        <Map city={city} points={generatedListOffers} selectedPoint={offer?.id} role={MapRole.OfferPageMap}/>
+        <Map city={cityName} points={generatedListOffers} selectedPointId={offer?.id} role={MapRole.OfferPageMap}/>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <NearbyOffersList offersData={slicedOffersData}/>
+          <NearbyOffersList offersData={slicedNearbyOffersList}/>
         </section>
       </div>
     </main>

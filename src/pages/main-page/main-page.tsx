@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
-import { AccomodationListItem } from '../../types/accomodation-item';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { OffersRole } from '../../const';
@@ -9,17 +8,19 @@ import {useAppSelector, useAppDispatch } from '../../hooks';
 import LocationsList from '../../components/locations-list/locations-list';
 import { fillOffersList } from '../../store/action';
 import Sorting from '../../components/sorting/sorting';
+import UserMenu from '../../components/user-menu/user-menu';
 
 type MainPageProps = {
-  offersData: AccomodationListItem[];
+  //offersData: AccomodationListItem[];
   cities: string[];
 }
 
-function MainPage({offersData, cities}: MainPageProps): JSX.Element {
+function MainPage({/*offersData, */cities}: MainPageProps): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
   const dispatch = useAppDispatch();
   const city = useAppSelector((state) => state.city);
+  const offersData = useAppSelector((state) => state.offersList);
 
   const chosenCityOffersData = useAppSelector((state) => state.offersList);
 
@@ -48,23 +49,7 @@ function MainPage({offersData, cities}: MainPageProps): JSX.Element {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <UserMenu />
           </div>
         </div>
       </header>

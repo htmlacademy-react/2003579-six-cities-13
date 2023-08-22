@@ -48,3 +48,10 @@ export enum SortingMode {
 
 export const SORTING_MODES_ARR = ['Popular', 'Price: high to low', 'Price: low to high', 'Top rated first'];
 
+export enum APIRoute {
+  Offers = '/offers',
+  Favorites = '/favorites',
+  Login = '/login',
+  Logout = '/logout',
+}
+
