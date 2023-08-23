@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Cities } from '../const';
-import { switchCity, fillOffersList, changeSortingMode, requireAuthorization, switchOffersLoadingStatus, redirectToRoute, fillNearbyOffersList, fillReviewsList } from './action';
+import { switchCity, fillOffersList, changeSortingMode, requireAuthorization, switchOffersLoadingStatus, redirectToRoute, fillNearbyOffersList, fillReviewsList, fillFavoritesList, handleUserMail } from './action';
 import { AccomodationListItem } from '../types/accomodation-item';
 import { SortingMode, AuthorizationStatus, AppRoute, APIRoute } from '../const';
 import { ReviewItemType } from '../types/review-item';
@@ -12,11 +12,12 @@ type initialStateType = {
   authorizationStatus: AuthorizationStatus;
   offersDataLoadingStatus: boolean;
   offersList: AccomodationListItem[];
-  nearbyOffersList: AccomodationListItem[];
   favoritesList: AccomodationListItem[];
+  nearbyOffersList: AccomodationListItem[];
   sortingMode: SortingMode;
   route: AppRoute | APIRoute;
   reviews: ReviewItemType[];
+  userMail: string;
 };
 
 const initialState: initialStateType = {
@@ -29,6 +30,7 @@ const initialState: initialStateType = {
   sortingMode: SortingMode.default,
   route: AppRoute.Root,
   reviews: [],
+  userMail: '',
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -55,6 +57,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fillReviewsList, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(fillFavoritesList, (state, action) => {
+      state.favoritesList = action.payload;
+    })
+    .addCase(handleUserMail, (state, action) => {
+      state.userMail = action.payload;
     });
 });
 

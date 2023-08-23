@@ -14,7 +14,9 @@ export const Action = {
   requireAuthorization: 'requireAuthorization',
   redirectToRoute: 'redirectToRoute',
   fillNearbyOffersList: 'fillNearbyOffersList',
+  fillFavoritesList: 'fillFavoritesList',
   fillReviewsList: 'fillReviewsList',
+  handleUserMail: 'handleUserMail',
 };
 
 export const switchCity = createAction(Action.switchCity, (city: Cities) => ({
@@ -23,6 +25,10 @@ export const switchCity = createAction(Action.switchCity, (city: Cities) => ({
 
 export const fillOffersList = createAction(Action.fillOffersList, (offersList: AccomodationListItem[]) => ({
   payload: offersList,
+}));
+
+export const fillFavoritesList = createAction(Action.fillFavoritesList, (favoritesList: AccomodationListItem[]) => ({
+  payload: favoritesList,
 }));
 
 export const fillNearbyOffersList = createAction(Action.fillNearbyOffersList, (nearbyOffersList: AccomodationListItem[]) => ({
@@ -47,4 +53,8 @@ export const requireAuthorization = createAction(Action.requireAuthorization, (a
 
 export const redirectToRoute = createAction(Action.redirectToRoute, (route: AppRoute | APIRoute) =>({
   payload: route,
+}));
+
+export const handleUserMail = createAction(Action.handleUserMail, (userMail: string) => ({
+  payload: userMail,
 }));

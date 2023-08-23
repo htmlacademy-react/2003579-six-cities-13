@@ -14,14 +14,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-
-type AppProps = {
-  //offersData: AccomodationListItem[];
-  //offersList: AccomodationListItem[];
-  cities: string[];
-}
-
-function App({/*offersData, offersList,*/ cities}: AppProps): JSX.Element {
+function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -41,15 +34,15 @@ function App({/*offersData, offersList,*/ cities}: AppProps): JSX.Element {
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
         <Routes>
-          <Route index path={AppRoute.Root} element={<MainPage cities={cities} /*offersData={offersData} offersData={generatedListOffersAll}*/ />} />
+          <Route index path={AppRoute.Root} element={<MainPage />} />
           <Route path={AppRoute.Favorites} element={
-            <LoginCheck authorizationStatus={authStatus}>
-              <FavoritesPage /*offersList = {offersList}*//>
+            <LoginCheck>
+              <FavoritesPage />
             </LoginCheck>
           }
           />
           <Route path={AppRoute.Login} element={<LoginPage />} />
-          <Route path={AppRoute.Offer} element={<OfferPage /*offersData={offersData}*//>} />
+          <Route path={AppRoute.Offer} element={<OfferPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </HistoryRouter>
