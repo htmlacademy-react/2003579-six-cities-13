@@ -15,7 +15,7 @@ function Sorting({ offersList }: SortingProps): JSX.Element {
   const [optionsListToggle, setOptionsListToggle] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const sortingMode = useAppSelector((state) => state.sortingMode);
-  const initialOffersList = offersList;
+  const initialOffersList = useRef(offersList).current;
 
   const formRef = useRef(null);
 

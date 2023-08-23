@@ -11,27 +11,26 @@ import Sorting from '../../components/sorting/sorting';
 import PageHeader from '../../components/page-header/page-header';
 import { citiesArr } from '../../const';
 
+
+const getOffersListSelector = (state: any) => state.offersList;
+
+const getOffersListByCity = (state, city) => {
+  return getOffersListSelector(state).filter((item) => item.city.name === city);
+};
+
 function MainPage(): JSX.Element {
   const cities = citiesArr;
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
   const dispatch = useAppDispatch();
   const city = useAppSelector((state) => state.city);
-  const offersData = useAppSelector((state) => state.offersList);
+  const chosenCityOffersData = useAppSelector((state) => getOffersListByCity(state, city));
 
-  const chosenCityOffersData = useAppSelector((state) => state.offersList);
-
-  useEffect(() => {
-    dispatch(fillOffersList(offersData.filter((item) => item.city.name === city)));
-  }, [city]);
+  // const chosenCityOffersData = useAppSelector((state) => state.offersList);
 
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
     setSelectedOfferId(e.currentTarget.id);
   };
-
-  useEffect(() => {
-    dispatch(fillOffersList(offersData.filter((item) => item.city.name === city)));
-  }, [city]);
 
   return (
     <div className="page page--gray page--main">
