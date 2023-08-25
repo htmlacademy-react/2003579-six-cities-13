@@ -1,32 +1,27 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import { OffersRole } from '../../const';
 import { MapRole } from '../../const';
-import {useAppSelector, useAppDispatch } from '../../hooks';
+import {useAppSelector} from '../../hooks';
 import LocationsList from '../../components/locations-list/locations-list';
-import { fillOffersList } from '../../store/action';
 import Sorting from '../../components/sorting/sorting';
 import PageHeader from '../../components/page-header/page-header';
 import { citiesArr } from '../../const';
+import { State } from '../../types/state';
 
 
-const getOffersListSelector = (state: any) => state.offersList;
+const getOffersListSelector = (state: State) => state.offersList;
 
-const getOffersListByCity = (state, city) => {
-  return getOffersListSelector(state).filter((item) => item.city.name === city);
-};
+const getOffersListByCity = (state: State, city: string) => getOffersListSelector(state).filter((item) => item.city.name === city);
 
 function MainPage(): JSX.Element {
   const cities = citiesArr;
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
-  const dispatch = useAppDispatch();
   const city = useAppSelector((state) => state.city);
   const chosenCityOffersData = useAppSelector((state) => getOffersListByCity(state, city));
-
-  // const chosenCityOffersData = useAppSelector((state) => state.offersList);
 
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {
     setSelectedOfferId(e.currentTarget.id);
