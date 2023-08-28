@@ -5,8 +5,9 @@ import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
-import { switchOffersLoadingStatus, fillOffersList, requireAuthorization, redirectToRoute } from './action.js';
-import { AccomodationListItem } from '../types/accomodation-item.js';
+import { switchOffersLoadingStatus, fillOffersList, requireAuthorization, redirectToRoute, getDetailedOfferData, fillNearbyOffersList, fillFavoritesList, fillReviewsList } from './action.js';
+import { AccomodationListItem, AccomodationDetailedItem } from '../types/accomodation-item.js';
+import type { ReviewItemType } from '../types/review-item.js';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -32,7 +33,49 @@ export const fetchFavoritesListAction = createAsyncThunk<void, undefined, {
     dispatch(switchOffersLoadingStatus(true));
     const {data} = await api.get<AccomodationListItem[]>(APIRoute.Favorites);
     dispatch(switchOffersLoadingStatus(false));
-    dispatch(fillOffersList(data));
+    dispatch(fillFavoritesList(data));
+  },
+);
+
+export const fetchNearbyOffersListAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchNearbyOffersList',
+  async (id, {dispatch, extra: api}) => {
+    //console.log(`${APIRoute.Offers}${id}/nearby`);
+    const {data} = await api.get<AccomodationListItem[]>(`${APIRoute.Offers}${id}/nearby`);
+    //console.log(`data = ${JSON.stringify(data)}`)
+    dispatch(fillNearbyOffersList(data));
+  },
+);
+
+export const fetchDetailedOfferAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchDetailedOffer',
+  async (id, {dispatch, extra: api}) => {
+    //console.log(`${APIRoute.Offers}${id}`);
+    const {data} = await api.get<AccomodationDetailedItem>(`${APIRoute.Offers}${id}`);
+    //console.log(`data = ${JSON.stringify(data)}`)
+    dispatch(getDetailedOfferData(data));
+  },
+);
+
+export const fetchReviewsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchReviews',
+  async (id, {dispatch, extra: api}) => {
+    //console.log(`${APIRoute.Comments}${id}`);
+    const {data} = await api.get<ReviewItemType[]>(`${APIRoute.Comments}${id}`);
+    //console.log(`data = ${JSON.stringify(data)}`)
+    dispatch(fillReviewsList(data));
   },
 );
 

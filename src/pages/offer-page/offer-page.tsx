@@ -1,30 +1,58 @@
 import { Helmet } from 'react-helmet-async';
-import { generatedDetailedOffers } from '../../mocks/generated-detailed-offers';
-import { generatedReviews } from '../../mocks/generated-reviews';
-//import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list';
-import { generatedListOffers } from '../../mocks/generated-list-offers';
 import Map from '../../components/map/map';
-import { MapRole } from '../../const';
+import { AppRoute, MapRole } from '../../const';
 import { useAppSelector } from '../../hooks';
 import PageHeader from '../../components/page-header/page-header';
+import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { fetchDetailedOfferAction, fetchNearbyOffersListAction, fetchReviewsAction } from '../../store/api-actions';
+import { AccomodationListItem } from '../../types/accomodation-item';
 
 function OfferPage(): JSX.Element {
-  //const { id } = useParams();
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffersList);
-  const slicedNearbyOffersList = nearbyOffers.slice(0, 3);
-  const offer = generatedDetailedOffers[0]; //ВРЕМЕННО - ПОТОМ ЗАМЕНИТЬ
+  const dispatch = useAppDispatch();
+  const { id } = useParams();
+  //console.log(id);
 
-  /*function findOfferById(offer: AccomodationDetailedItem) {  ///НЕ УДАЛЯТЬ!!!!
-    if (id !== undefined && offer.id !== undefined) {
-      return offer.id === id;
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchDetailedOfferAction(id));
+      dispatch(fetchNearbyOffersListAction(id));
+      dispatch(fetchReviewsAction(id));
     }
-  }*/
+  }, [id, dispatch]);
 
-  //const offer = generatedDetailedOffers.find(findOfferById);
+  const offer = useAppSelector((state) => state.detailedOfferData);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffersList);
+  const offersList = useAppSelector((state) => state.offersList);
+  const offerReviews = useAppSelector((state) => state.reviews);
+  let cityName: string;
 
-  const cityName: string = offer.city.name;
+  if (offer && id) {
+    cityName = offer.city.name;
+  } else {
+    return <Navigate to={AppRoute.NotFoudPage} />;
+  }
+
+  function findOfferById(item: AccomodationListItem) {
+    if (id !== undefined && item.id !== undefined) {
+      return item.id === id;
+    }
+  }
+
+
+  const slicedNearbyOffersList = nearbyOffers.slice(0, 3);
+  const currentOfferBriefInfo = offersList.find(findOfferById);
+
+  if (currentOfferBriefInfo) {
+    slicedNearbyOffersList.push(currentOfferBriefInfo);
+  }
+
+  //console.log('offer title');
+  //console.log(offer?.title);
 
   return (
     <div className="page">
@@ -110,10 +138,10 @@ function OfferPage(): JSX.Element {
                   <p className="offer__text">{offer?.description}</p>
                 </div>
               </div>
-              <ReviewsList reviewsArr={generatedReviews[0]} />
+              <ReviewsList reviewsArr={offerReviews} />
             </div>
           </div>
-          <Map city={cityName} points={generatedListOffers} selectedPointId={offer?.id} role={MapRole.OfferPageMap} />
+          <Map city={cityName} points={slicedNearbyOffersList} selectedPointId={offer?.id} role={MapRole.OfferPageMap} />
         </section>
         <div className="container">
           <section className="near-places places">
