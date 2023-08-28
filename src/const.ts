@@ -50,9 +50,18 @@ export const SORTING_MODES_ARR = ['Popular', 'Price: high to low', 'Price: low t
 
 export enum APIRoute {
   Offers = '/offers/',
-  Favorites = '/favorites',
+  Favorites = '/favorite',
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments/',
+}
+
+export enum NameSpace {
+  User = 'USER',
+  Offers = 'OFFERS_GENERAL',
+  Favorites = 'OFFERS_FAVORITES',
+  CurrentOffer = 'CURRENT_OFFER',
+  NearbyOffers = 'OFFERS_NEARBY',
+  Reviews = 'REVIEWS',
 }
 
