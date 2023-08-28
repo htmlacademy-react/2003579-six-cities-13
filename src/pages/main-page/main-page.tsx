@@ -21,6 +21,7 @@ function MainPage(): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
   const city = useAppSelector((state) => state.city);
+
   const chosenCityOffersData = useAppSelector((state) => getOffersListByCity(state, city));
 
   const onMouseOverOffer = (e : React.MouseEvent<HTMLElement>) => {

@@ -1,5 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import { AccomodationListItem } from '../types/accomodation-item';
+import { AccomodationDetailedItem } from '../types/accomodation-item';
 import { Cities } from '../const';
 import { SortingMode } from '../const';
 import { AuthorizationStatus } from '../const';
@@ -17,6 +18,7 @@ export const Action = {
   fillFavoritesList: 'fillFavoritesList',
   fillReviewsList: 'fillReviewsList',
   handleUserMail: 'handleUserMail',
+  getDetailedOfferData: 'getDetailedOfferData',
 };
 
 export const switchCity = createAction(Action.switchCity, (city: Cities) => ({
@@ -37,6 +39,10 @@ export const fillNearbyOffersList = createAction(Action.fillNearbyOffersList, (n
 
 export const fillReviewsList = createAction(Action.fillReviewsList, (reviews: ReviewItemType[]) => ({
   payload: reviews,
+}));
+
+export const getDetailedOfferData = createAction(Action.getDetailedOfferData, (detailedOfferData: AccomodationDetailedItem) => ({
+  payload: detailedOfferData,
 }));
 
 export const changeSortingMode = createAction(Action.changeSortingMode, (sortingMode: SortingMode) => ({

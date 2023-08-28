@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Cities } from '../const';
-import { switchCity, fillOffersList, changeSortingMode, requireAuthorization, switchOffersLoadingStatus, redirectToRoute, fillNearbyOffersList, fillReviewsList, fillFavoritesList, handleUserMail } from './action';
+import { switchCity, fillOffersList, changeSortingMode, requireAuthorization, switchOffersLoadingStatus, redirectToRoute, fillNearbyOffersList, fillReviewsList, fillFavoritesList, handleUserMail, getDetailedOfferData } from './action';
 import { AccomodationListItem } from '../types/accomodation-item';
+import { AccomodationDetailedItem } from '../types/accomodation-item';
 import { SortingMode, AuthorizationStatus, AppRoute, APIRoute } from '../const';
 import { ReviewItemType } from '../types/review-item';
 
@@ -18,6 +19,7 @@ type initialStateType = {
   route: AppRoute | APIRoute;
   reviews: ReviewItemType[];
   userMail: string;
+  detailedOfferData: AccomodationDetailedItem | null;
 };
 
 const initialState: initialStateType = {
@@ -31,6 +33,7 @@ const initialState: initialStateType = {
   route: AppRoute.Root,
   reviews: [],
   userMail: '',
+  detailedOfferData: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -63,6 +66,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(handleUserMail, (state, action) => {
       state.userMail = action.payload;
+    })
+    .addCase(getDetailedOfferData, (state, action) => {
+      state.detailedOfferData = action.payload;
     });
 });
 
