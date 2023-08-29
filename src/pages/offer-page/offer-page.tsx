@@ -35,16 +35,16 @@ function OfferPage(): JSX.Element {
   const offersList = useAppSelector(getOffersList);
   const offerReviews = useAppSelector(getReviewsList);
 
-  let cityName: string;
-  if (offer && id && !isOfferDetailLoading) {
-    cityName = offer.city.name;
-  } else {
-    return <Navigate to={AppRoute.NotFoudPage} />;
-  }
-
   if (isOfferDetailLoading) {
     return <LoadingScreen />;
   }
+
+  let cityName: string;
+  if (offer && id && !isOfferDetailLoading) {
+    cityName = offer.city.name;
+  } /*else {
+    return <Navigate to={AppRoute.NotFoudPage} />;
+  }*/
 
   function findOfferById(item: AccomodationListItem) {
     if (id !== undefined && item.id !== undefined) {
@@ -64,7 +64,7 @@ function OfferPage(): JSX.Element {
       <PageHeader />
       <main className="page__main page__main--offer">
         <Helmet>
-          <title>`6 cities: {offer?.title}`</title>
+          <title>{`6 cities: ${offer?.title}`}</title>
         </Helmet>
         <section className="offer">
           <div className="offer__gallery-container container">
