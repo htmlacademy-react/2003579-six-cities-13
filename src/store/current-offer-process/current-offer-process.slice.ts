@@ -5,7 +5,6 @@ import { CurrentOfferProcess} from '../../types/state';
 
 
 const initialState: CurrentOfferProcess = {
-  id: undefined,
   currentOffer: null,
   isCurrentOfferDataLoading: false,
 };

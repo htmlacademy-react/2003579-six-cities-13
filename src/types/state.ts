@@ -27,7 +27,6 @@ export type NearbyOffersProcess = {
 }
 
 export type CurrentOfferProcess = {
-  id: string | undefined;
   currentOffer: AccomodationDetailedItem | null;
   isCurrentOfferDataLoading: boolean;
 }
