@@ -13,13 +13,21 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { getAuthorizationStatus } from '../../store/user-process/user-process.selector';
 import { getOffersLoadingStatus } from '../../store/offers-process/offers-process.selector';
+import {useEffect} from 'react';
+import { useAppDispatch } from '../../hooks';
+import { fetchOffersAction } from '../../store/api-actions';
 
 function App(): JSX.Element {
 
   const authStatus = useAppSelector(getAuthorizationStatus);
   const offersLoadingStatus = useAppSelector(getOffersLoadingStatus);
+  const dispatch = useAppDispatch();
 
-  if(authStatus === AuthorizationStatus.Unknown || offersLoadingStatus === true) {
+ useEffect(() => {
+  dispatch(fetchOffersAction());
+ },[])
+
+  if(/*authStatus === AuthorizationStatus.Unknown ||*/ offersLoadingStatus === true) {
     return (
       <LoadingScreen />
     );

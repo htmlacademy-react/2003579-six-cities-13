@@ -8,8 +8,8 @@ const initialState: ReviewsProcess = {
   isReviewsListLoading: false,
 };
 
-export const favoritesProcess = createSlice({
-  name: NameSpace.Favorites,
+export const reviewsProcess = createSlice({
+  name: NameSpace.Reviews,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -17,8 +17,9 @@ export const favoritesProcess = createSlice({
       .addCase(fetchReviewsAction.pending, (state) => {
         state.isReviewsListLoading = true;
       })
-      .addCase(fetchReviewsAction.fulfilled, (state) => {
+      .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.isReviewsListLoading = false;
+        state.reviewsList = action.payload;
       });
   }
 });

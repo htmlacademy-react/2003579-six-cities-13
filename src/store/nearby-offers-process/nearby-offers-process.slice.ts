@@ -8,8 +8,8 @@ const initialState: NearbyOffersProcess = {
   isNearbyOffersListLoading: false,
 };
 
-export const favoritesProcess = createSlice({
-  name: NameSpace.Favorites,
+export const nearbyOffersProcess = createSlice({
+  name: NameSpace.NearbyOffers,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -17,8 +17,9 @@ export const favoritesProcess = createSlice({
       .addCase(fetchNearbyOffersListAction.pending, (state) => {
         state.isNearbyOffersListLoading = true;
       })
-      .addCase(fetchNearbyOffersListAction.fulfilled, (state) => {
+      .addCase(fetchNearbyOffersListAction.fulfilled, (state, action) => {
         state.isNearbyOffersListLoading = false;
+        state.nearbyOffersList = action.payload;
       });
   }
 });

@@ -11,11 +11,15 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { fetchDetailedOfferAction, fetchNearbyOffersListAction, fetchReviewsAction } from '../../store/api-actions';
 import { AccomodationListItem } from '../../types/accomodation-item';
+import { getOffersList } from '../../store/offers-process/offers-process.selector';
+import { getCurrentOffer, getCurrentOfferLoadingStatus } from '../../store/current-offer-process/current-offer-process.selector';
+import { getNearbyOffersList } from '../../store/nearby-offers-process/nearby-offers-process.selector';
+import { getReviewsList } from '../../store/reviews-process/reviews-process.selector';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 function OfferPage(): JSX.Element {
-  const dispatch = useAppDispatch();
   const { id } = useParams();
-  //console.log(id);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (id) {
@@ -25,16 +29,21 @@ function OfferPage(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const offer = useAppSelector((state) => state.detailedOfferData);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffersList);
-  const offersList = useAppSelector((state) => state.offersList);
-  const offerReviews = useAppSelector((state) => state.reviews);
-  let cityName: string;
+  const offer = useAppSelector(getCurrentOffer);
+  const isOfferDetailLoading = useAppSelector(getCurrentOfferLoadingStatus)
+  const nearbyOffers = useAppSelector(getNearbyOffersList);
+  const offersList = useAppSelector(getOffersList);
+  const offerReviews = useAppSelector(getReviewsList);
 
-  if (offer && id) {
+  let cityName: string;
+  if (offer && id && !isOfferDetailLoading) {
     cityName = offer.city.name;
   } else {
     return <Navigate to={AppRoute.NotFoudPage} />;
+  }
+
+  if (isOfferDetailLoading) {
+    return <LoadingScreen />;
   }
 
   function findOfferById(item: AccomodationListItem) {
@@ -43,16 +52,12 @@ function OfferPage(): JSX.Element {
     }
   }
 
-
   const slicedNearbyOffersList = nearbyOffers.slice(0, 3);
   const currentOfferBriefInfo = offersList.find(findOfferById);
 
   if (currentOfferBriefInfo) {
     slicedNearbyOffersList.push(currentOfferBriefInfo);
   }
-
-  //console.log('offer title');
-  //console.log(offer?.title);
 
   return (
     <div className="page">

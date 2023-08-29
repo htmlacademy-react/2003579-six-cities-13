@@ -57,7 +57,7 @@ export const fetchDetailedOfferAction = createAsyncThunk<AccomodationDetailedIte
   async (id, {extra: api}) => {
     //console.log(`${APIRoute.Offers}${id}`);
     const {data} = await api.get<AccomodationDetailedItem>(`${APIRoute.Offers}${id}`);
-    //console.log(`data = ${JSON.stringify(data)}`)
+    console.log(`dataFetch = ${JSON.stringify(data)}`)
     return data;
   },
 );

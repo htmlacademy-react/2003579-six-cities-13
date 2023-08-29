@@ -14,7 +14,7 @@ import { getCity, getOffersList } from '../../store/offers-process/offers-proces
 
 //const getOffersListSelector = (state: State) => state.offersList;
 
-const getOffersListByCity = (state: State, city: string) => getOffersList(state).filter((item) => item.city.name === city);
+const getOffersListByCity = (state: State, city: string) => getOffersList(state)?.filter((item) => item.city.name === city);
 
 function MainPage(): JSX.Element {
   const cities = citiesArr;
@@ -43,7 +43,7 @@ function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{chosenCityOffersData.length} places to stay in {city}</b>
+              <b className="places__found">{chosenCityOffersData?.length} places to stay in {city}</b>
               <Sorting offersList={chosenCityOffersData} />
               <OffersList offersData={chosenCityOffersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
             </section>
