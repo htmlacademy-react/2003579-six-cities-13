@@ -16,6 +16,8 @@ import { getCurrentOffer, getCurrentOfferLoadingStatus } from '../../store/curre
 import { getNearbyOffersList } from '../../store/nearby-offers-process/nearby-offers-process.selector';
 import { getReviewsList } from '../../store/reviews-process/reviews-process.selector';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
+import OfferFavoriteToggle from '../../components/offer-favorite-toggle/offer-favorite-toggle';
+import { FavoritesToggleRole } from '../../const';
 
 function OfferPage(): JSX.Element {
   const { id } = useParams();
@@ -42,9 +44,7 @@ function OfferPage(): JSX.Element {
   let cityName = '';
   if (offer && id && !isOfferDetailLoading) {
     cityName = offer.city.name;
-  } /*else {
-    return <Navigate to={AppRoute.NotFoudPage} />;
-  }*/
+  }
 
   function findOfferById(item: AccomodationListItem) {
     if (id !== undefined && item.id !== undefined) {
@@ -89,12 +89,9 @@ function OfferPage(): JSX.Element {
                 : false}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer?.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+
+                {id && offer?.isFavorite &&<OfferFavoriteToggle offerId={id} role={FavoritesToggleRole.DetailedOfferFavoriteToggle} isFavorite={offer.isFavorite} />}
+
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">

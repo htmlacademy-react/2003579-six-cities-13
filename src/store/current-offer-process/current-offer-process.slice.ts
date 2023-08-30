@@ -1,7 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {NameSpace} from '../../const';
-import { changeOfferFavoriteStatusAction, fetchDetailedOfferAction } from '../api-actions';
-import { CurrentOfferProcess} from '../../types/state';
+import { createSlice } from '@reduxjs/toolkit';
+import { NameSpace } from '../../const';
+import { changeDetailedOfferFavoriteStatusAction, fetchDetailedOfferAction } from '../api-actions';
+import { CurrentOfferProcess } from '../../types/state';
 
 
 const initialState: CurrentOfferProcess = {
@@ -22,7 +22,7 @@ export const currentOfferProcess = createSlice({
       })
       .addCase(fetchDetailedOfferAction.fulfilled, (state, action) => {
         state.isCurrentOfferDataLoading = false;
-        if(action.payload) {
+        if (action.payload) {
           state.currentOffer = action.payload;
         }
       })
@@ -30,13 +30,11 @@ export const currentOfferProcess = createSlice({
         state.isCurrentOfferDataLoading = false;
         state.hasCurrentOfferLoadingError = true;
       })
-      .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
-        if (action.payload !== null) {
-          if (state.currentOffer?.id === action.payload.id) {
-            state.currentOffer.isFavorite = action.payload.isFavorite;
-          }
+      .addCase(changeDetailedOfferFavoriteStatusAction.fulfilled, (state, action) => {
+        if (state.currentOffer !== null) {
+          state.currentOffer = action.payload.chosenOffer;
         }
-      });
+      }
+      );
   }
 });
-

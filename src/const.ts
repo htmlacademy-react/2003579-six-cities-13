@@ -41,6 +41,13 @@ export enum OffersRole {
   OfferPageNearPlaces = 'OFFER_PAGE_NEAR_PLACES',
 }
 
+export enum FavoritesToggleRole {
+  OffersListFavoriteToggle = 'OFFERS_LIST_TOGGLE',
+  //OffersListFavoriteToggleActive = 'OFFERS_LIST_TOGGLE_ACTIVE',
+  DetailedOfferFavoriteToggle = 'DETAILED_OFFER_TOGGLE',
+  //DetailedOfferFavoriteToggleActive = 'DETAILED_OFFER_TOGGLE_ACTIVE',
+}
+
 export enum SortingMode {
   default = 'Popular',
   sortPriceHighToLow = 'Price: high to low',
