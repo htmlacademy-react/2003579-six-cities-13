@@ -10,17 +10,17 @@ import Sorting from '../../components/sorting/sorting';
 import PageHeader from '../../components/page-header/page-header';
 import { citiesArr } from '../../const';
 import { State } from '../../types/state';
+import { getCity, getOffersList } from '../../store/offers-process/offers-process.selector';
 
+//const getOffersListSelector = (state: State) => state.offersList;
 
-const getOffersListSelector = (state: State) => state.offersList;
-
-const getOffersListByCity = (state: State, city: string) => getOffersListSelector(state).filter((item) => item.city.name === city);
+const getOffersListByCity = (state: State, city: string) => getOffersList(state)?.filter((item) => item.city.name === city);
 
 function MainPage(): JSX.Element {
   const cities = citiesArr;
   const [selectedOfferId, setSelectedOfferId] = useState<string | undefined>(undefined);
 
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector(getCity);
 
   const chosenCityOffersData = useAppSelector((state) => getOffersListByCity(state, city));
 
@@ -43,7 +43,7 @@ function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{chosenCityOffersData.length} places to stay in {city}</b>
+              <b className="places__found">{chosenCityOffersData?.length} places to stay in {city}</b>
               <Sorting offersList={chosenCityOffersData} />
               <OffersList offersData={chosenCityOffersData} onMouseOverOffer={onMouseOverOffer} role={OffersRole.MainPageOffers}/>
             </section>

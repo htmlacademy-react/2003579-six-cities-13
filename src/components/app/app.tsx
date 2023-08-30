@@ -7,22 +7,26 @@ import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import MainPage from '../../pages/main-page/main-page';
 import PageNotFound from '../../pages/page-not-found/page-not-found';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import {useEffect} from 'react';
-import { fillOffersList } from '../../store/action';
+import { useAppSelector} from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getAuthorizationStatus } from '../../store/user-process/user-process.selector';
+import { getOffersLoadingStatus } from '../../store/offers-process/offers-process.selector';
+import {useEffect} from 'react';
+import { useAppDispatch } from '../../hooks';
+import { checkAuthAction, fetchOffersAction } from '../../store/api-actions';
 
 function App(): JSX.Element {
+
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const offersLoadingStatus = useAppSelector(getOffersLoadingStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fillOffersList([]));
-  }, [dispatch]);
-
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const offersLoadingStatus = useAppSelector((state) => state.offersDataLoadingStatus);
+    dispatch(fetchOffersAction());
+    dispatch(checkAuthAction());
+  },[]);
 
   if(authStatus === AuthorizationStatus.Unknown || offersLoadingStatus === true) {
     return (

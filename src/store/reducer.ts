@@ -1,75 +1,14 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { Cities } from '../const';
-import { switchCity, fillOffersList, changeSortingMode, requireAuthorization, switchOffersLoadingStatus, redirectToRoute, fillNearbyOffersList, fillReviewsList, fillFavoritesList, handleUserMail, getDetailedOfferData } from './action';
-import { AccomodationListItem } from '../types/accomodation-item';
-import { AccomodationDetailedItem } from '../types/accomodation-item';
-import { SortingMode, AuthorizationStatus, AppRoute, APIRoute } from '../const';
-import { ReviewItemType } from '../types/review-item';
+import { combineReducers} from '@reduxjs/toolkit';
+import { NameSpace } from '../const';
+import { offersProcess } from './offers-process/offers-process.slice';
+import { favoritesProcess } from './favorites-process/favorites-process.slice';
+import { currentOfferProcess } from './current-offer-process/current-offer-process.slice';
+import { reviewsProcess } from './reviews-process/reviews-process.slice';
+import { userProcess } from './user-process/user-process.slice';
+import { nearbyOffersProcess } from './nearby-offers-process/nearby-offers-process.slice';
 
-const STARTING_CITY : Cities = Cities.Paris;
-
-type initialStateType = {
-  city: Cities;
-  authorizationStatus: AuthorizationStatus;
-  offersDataLoadingStatus: boolean;
-  offersList: AccomodationListItem[];
-  favoritesList: AccomodationListItem[];
-  nearbyOffersList: AccomodationListItem[];
-  sortingMode: SortingMode;
-  route: AppRoute | APIRoute;
-  reviews: ReviewItemType[];
-  userMail: string;
-  detailedOfferData: AccomodationDetailedItem | null;
-};
-
-const initialState: initialStateType = {
-  city: STARTING_CITY,
-  authorizationStatus: AuthorizationStatus.Unknown,
-  offersDataLoadingStatus: false,
-  offersList: [],
-  nearbyOffersList: [],
-  favoritesList: [],
-  sortingMode: SortingMode.default,
-  route: AppRoute.Root,
-  reviews: [],
-  userMail: '',
-  detailedOfferData: null,
-};
-
-const reducer = createReducer(initialState, (builder) => {
-  builder.addCase(switchCity, (state, action) => {
-    state.city = action.payload;
-  })
-    .addCase(fillOffersList, (state, action) => {
-      state.offersList = action.payload;
-    })
-    .addCase(changeSortingMode, (state, action) => {
-      state.sortingMode = action.payload;
-    })
-    .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
-    })
-    .addCase(switchOffersLoadingStatus, (state, action) => {
-      state.offersDataLoadingStatus = action.payload;
-    })
-    .addCase(redirectToRoute, (state, action) => {
-      state.route = action.payload;
-    })
-    .addCase(fillNearbyOffersList, (state, action) => {
-      state.nearbyOffersList = action.payload;
-    })
-    .addCase(fillReviewsList, (state, action) => {
-      state.reviews = action.payload;
-    })
-    .addCase(fillFavoritesList, (state, action) => {
-      state.favoritesList = action.payload;
-    })
-    .addCase(handleUserMail, (state, action) => {
-      state.userMail = action.payload;
-    })
-    .addCase(getDetailedOfferData, (state, action) => {
-      state.detailedOfferData = action.payload;
-    });
-});
+const reducer = combineReducers({[NameSpace.Offers]: offersProcess.reducer, [NameSpace.Favorites] : favoritesProcess.reducer,
+  [NameSpace.CurrentOffer]: currentOfferProcess.reducer, [NameSpace.Reviews]: reviewsProcess.reducer, [NameSpace.User]: userProcess.reducer,
+  [NameSpace.NearbyOffers]: nearbyOffersProcess.reducer});
 
 export {reducer};

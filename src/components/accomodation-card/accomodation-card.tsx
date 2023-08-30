@@ -5,6 +5,8 @@ import { AppRoute } from '../../const';
 import { AccomodationListItem } from '../../types/accomodation-item';
 import { useState } from 'react';
 import { OffersRole } from '../../const';
+import { FavoritesToggleRole } from '../../const';
+import OfferFavoriteToggle from '../offer-favorite-toggle/offer-favorite-toggle';
 
 type AccomodationCardProps = {
   offerData: AccomodationListItem;
@@ -52,12 +54,7 @@ function AccomodationCard(props: AccomodationCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{props.offerData.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">{props.offerData.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-          </button>
+          {props.offerData && <OfferFavoriteToggle offerId={props.offerData.id} role={FavoritesToggleRole.OffersListFavoriteToggle} isFavorite={props.offerData.isFavorite}/>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

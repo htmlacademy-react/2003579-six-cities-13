@@ -1,3 +1,5 @@
+import { ChosenBriefOfferFavoriteStatusResponse, ChosenDetailedOfferFavoriteStatusResponse } from './types/chosen-offer-favorite-status-response';
+
 export enum AppRoute {
   Favorites = '/favorites',
   Login = '/login',
@@ -39,6 +41,13 @@ export enum OffersRole {
   OfferPageNearPlaces = 'OFFER_PAGE_NEAR_PLACES',
 }
 
+export enum FavoritesToggleRole {
+  OffersListFavoriteToggle = 'OFFERS_LIST_TOGGLE',
+  //OffersListFavoriteToggleActive = 'OFFERS_LIST_TOGGLE_ACTIVE',
+  DetailedOfferFavoriteToggle = 'DETAILED_OFFER_TOGGLE',
+  //DetailedOfferFavoriteToggleActive = 'DETAILED_OFFER_TOGGLE_ACTIVE',
+}
+
 export enum SortingMode {
   default = 'Popular',
   sortPriceHighToLow = 'Price: high to low',
@@ -50,9 +59,29 @@ export const SORTING_MODES_ARR = ['Popular', 'Price: high to low', 'Price: low t
 
 export enum APIRoute {
   Offers = '/offers/',
-  Favorites = '/favorites',
+  Favorites = '/favorite',
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments/',
 }
 
+export enum NameSpace {
+  User = 'USER',
+  Offers = 'OFFERS_GENERAL',
+  Favorites = 'OFFERS_FAVORITES',
+  CurrentOffer = 'CURRENT_OFFER',
+  NearbyOffers = 'OFFERS_NEARBY',
+  Reviews = 'REVIEWS',
+}
+
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'];
+
+export const EMPTY_FAVORITES_RESPONSE : ChosenBriefOfferFavoriteStatusResponse | ChosenDetailedOfferFavoriteStatusResponse = {
+  chosenOffer: null,
+  favoritesList: [],
+};
+
+export enum FavoriteStatus {
+  InFavorites = 1,
+  OutOfFavorites = 0,
+}

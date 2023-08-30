@@ -1,13 +1,14 @@
 import { Cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { switchCity} from '../../store/action';
 import cn from 'classnames';
+import { switchCity } from '../../store/offers-process/offers-process.slice';
+import { getCity } from '../../store/offers-process/offers-process.selector';
 
 type LocationsListProps = {
   citiesNamesArr: string[];
 }
 
-function LocationsList({ citiesNamesArr/*, offersData*/ }: LocationsListProps): JSX.Element {
+function LocationsList({ citiesNamesArr }: LocationsListProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   function handleTabClick(e: React.MouseEvent<HTMLElement>) {
@@ -20,7 +21,7 @@ function LocationsList({ citiesNamesArr/*, offersData*/ }: LocationsListProps): 
     }
   }
 
-  const cityName = useAppSelector((state) => state.city);
+  const cityName = useAppSelector(getCity);
 
   return (
     <section className="locations container">

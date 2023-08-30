@@ -3,19 +3,24 @@ import { useParams } from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list';
 import Map from '../../components/map/map';
-import { AppRoute, MapRole } from '../../const';
+import { MapRole } from '../../const';
 import { useAppSelector } from '../../hooks';
 import PageHeader from '../../components/page-header/page-header';
-import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { fetchDetailedOfferAction, fetchNearbyOffersListAction, fetchReviewsAction } from '../../store/api-actions';
 import { AccomodationListItem } from '../../types/accomodation-item';
+import { getOffersList } from '../../store/offers-process/offers-process.selector';
+import { getCurrentOffer, getCurrentOfferLoadingStatus } from '../../store/current-offer-process/current-offer-process.selector';
+import { getNearbyOffersList } from '../../store/nearby-offers-process/nearby-offers-process.selector';
+import { getReviewsList } from '../../store/reviews-process/reviews-process.selector';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
+import OfferFavoriteToggle from '../../components/offer-favorite-toggle/offer-favorite-toggle';
+import { FavoritesToggleRole } from '../../const';
 
 function OfferPage(): JSX.Element {
-  const dispatch = useAppDispatch();
   const { id } = useParams();
-  //console.log(id);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (id) {
@@ -25,16 +30,19 @@ function OfferPage(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const offer = useAppSelector((state) => state.detailedOfferData);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffersList);
-  const offersList = useAppSelector((state) => state.offersList);
-  const offerReviews = useAppSelector((state) => state.reviews);
-  let cityName: string;
+  const offer = useAppSelector(getCurrentOffer);
+  const isOfferDetailLoading = useAppSelector(getCurrentOfferLoadingStatus);
+  const nearbyOffers = useAppSelector(getNearbyOffersList);
+  const offersList = useAppSelector(getOffersList);
+  const offerReviews = useAppSelector(getReviewsList);
 
-  if (offer && id) {
+  if (isOfferDetailLoading) {
+    return <LoadingScreen />;
+  }
+
+  let cityName = '';
+  if (offer && id && !isOfferDetailLoading) {
     cityName = offer.city.name;
-  } else {
-    return <Navigate to={AppRoute.NotFoudPage} />;
   }
 
   function findOfferById(item: AccomodationListItem) {
@@ -43,7 +51,6 @@ function OfferPage(): JSX.Element {
     }
   }
 
-
   const slicedNearbyOffersList = nearbyOffers.slice(0, 3);
   const currentOfferBriefInfo = offersList.find(findOfferById);
 
@@ -51,15 +58,14 @@ function OfferPage(): JSX.Element {
     slicedNearbyOffersList.push(currentOfferBriefInfo);
   }
 
-  //console.log('offer title');
-  //console.log(offer?.title);
+  const role = FavoritesToggleRole.DetailedOfferFavoriteToggle;
 
   return (
     <div className="page">
       <PageHeader />
       <main className="page__main page__main--offer">
         <Helmet>
-          <title>`6 cities: {offer?.title}`</title>
+          <title>{`6 cities: ${offer?.title}`}</title>
         </Helmet>
         <section className="offer">
           <div className="offer__gallery-container container">
@@ -84,12 +90,9 @@ function OfferPage(): JSX.Element {
                 : false}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer?.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+
+                {id && offer?.isFavorite &&<OfferFavoriteToggle offerId={id} role={role} isFavorite={offer.isFavorite} />}
+
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -138,7 +141,7 @@ function OfferPage(): JSX.Element {
                   <p className="offer__text">{offer?.description}</p>
                 </div>
               </div>
-              <ReviewsList reviewsArr={offerReviews} />
+              <ReviewsList offerId={id} reviewsArr={offerReviews} />
             </div>
           </div>
           <Map city={cityName} points={slicedNearbyOffersList} selectedPointId={offer?.id} role={MapRole.OfferPageMap} />

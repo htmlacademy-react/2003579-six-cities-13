@@ -1,18 +1,55 @@
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { sendReviewAction } from '../../store/api-actions';
+import { getUserReviewSendingErrorStatus, getUserReviewSendingStatus } from '../../store/reviews-process/reviews-process.selector';
 
-function ReviewForm(): JSX.Element {
+type ReviewFormProps ={
+  offerId: string;
+}
+
+function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+  const isReviewSending = useAppSelector(getUserReviewSendingStatus);
+  const hasSendingError = useAppSelector(getUserReviewSendingErrorStatus);
+
   const [reviewFormData, setReviewFormData] = useState({
-    rating: '',
+    rating: 0,
     review: ''
   });
 
-  function HandleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  const dispatch = useAppDispatch();
+
+  let isSubmittingDisabled : boolean;
+
+  if(!isReviewSending || !hasSendingError || reviewFormData.rating === 0 || reviewFormData.review === '') {
+    isSubmittingDisabled = false;
+  } else {
+    isSubmittingDisabled = true;
+  }
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
     setReviewFormData((prevValues) => ({ ...prevValues, [name]: value }));
   }
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const rating = reviewFormData.rating;
+    const review = reviewFormData.review;
+    const id = offerId;
+
+    if (rating !== null && review !== null) {
+      dispatch(sendReviewAction({rating, review,id, cb: () => {
+        setReviewFormData({
+          rating: 0,
+          review: '',
+        });
+      }}));
+    }
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -23,7 +60,8 @@ function ReviewForm(): JSX.Element {
           value={reviewFormData.rating}
           id="5-stars"
           type="radio"
-          onChange={HandleInputChange}
+          disabled={isReviewSending}
+          onChange={handleInputChange}
         />
         <label
           htmlFor="5-stars"
@@ -40,7 +78,8 @@ function ReviewForm(): JSX.Element {
           value={reviewFormData.rating}
           id="4-stars"
           type="radio"
-          onChange={HandleInputChange}
+          disabled={isReviewSending}
+          onChange={handleInputChange}
         />
         <label
           htmlFor="4-stars"
@@ -57,7 +96,8 @@ function ReviewForm(): JSX.Element {
           value={reviewFormData.rating}
           id="3-stars"
           type="radio"
-          onChange={HandleInputChange}
+          disabled={isReviewSending}
+          onChange={handleInputChange}
         />
         <label
           htmlFor="3-stars"
@@ -74,7 +114,8 @@ function ReviewForm(): JSX.Element {
           value={reviewFormData.rating}
           id="2-stars"
           type="radio"
-          onChange={HandleInputChange}
+          disabled={isReviewSending}
+          onChange={handleInputChange}
         />
         <label
           htmlFor="2-stars"
@@ -91,7 +132,8 @@ function ReviewForm(): JSX.Element {
           value={reviewFormData.rating}
           id="1-star"
           type="radio"
-          onChange={HandleInputChange}
+          disabled={isReviewSending}
+          onChange={handleInputChange}
         />
         <label
           htmlFor="1-star"
@@ -108,8 +150,11 @@ function ReviewForm(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        minLength={50}
+        maxLength={300}
+        disabled={isReviewSending}
         value={reviewFormData.review}
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -121,7 +166,7 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled = {isSubmittingDisabled}
         >
           Submit
         </button>

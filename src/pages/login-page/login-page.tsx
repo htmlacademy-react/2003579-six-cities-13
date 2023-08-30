@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { useRef} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
@@ -7,19 +6,17 @@ import Logo from '../../components/logo/logo';
 import { AuthData } from '../../types/auth-data';
 import { AuthorizationStatus } from '../../const';
 import { Navigate } from 'react-router-dom';
+import { getAuthorizationStatus } from '../../store/user-process/user-process.selector';
 
 function LoginPage(): JSX.Element {
 
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const authStatus = useAppSelector(getAuthorizationStatus);
+
   const dispatch = useAppDispatch();
 
   if(authStatus === AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Root} />;
   }
-
-  //const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,4}$/;
 
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -28,9 +25,9 @@ function LoginPage(): JSX.Element {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthData;
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction(data));
-    }
+
+    dispatch(loginAction(data));
+
   }
 
   //function validateMail(/*mailInputField: HTMLInputElement*/) {
@@ -67,7 +64,6 @@ function LoginPage(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
-                  ref={loginRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
@@ -78,7 +74,6 @@ function LoginPage(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
-                  ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"

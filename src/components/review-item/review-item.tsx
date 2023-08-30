@@ -1,6 +1,12 @@
 import { ReviewItemType } from '../../types/review-item';
+import { convertNumericMonthToString } from '../../utils';
 
 function ReviewItem(review: ReviewItemType): JSX.Element {
+
+  const reviewDate = new Date(review.date);
+  const reviewMonth = reviewDate.getMonth();
+  const reviewYear = reviewDate.getFullYear();
+
   return (
     <li className="reviews__item" key={review.id}>
       <div className="reviews__user user">
@@ -25,8 +31,8 @@ function ReviewItem(review: ReviewItemType): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">
-          {review.date}
+        <time className="reviews__time" dateTime={review.date}>
+          {`${convertNumericMonthToString(reviewMonth)} ${reviewYear}`}
         </time>
       </div>
     </li>

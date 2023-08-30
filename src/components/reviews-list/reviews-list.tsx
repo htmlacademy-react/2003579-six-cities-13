@@ -1,39 +1,34 @@
 import ReviewForm from '../review-form/review-form';
 import { ReviewItemType } from '../../types/review-item';
 import ReviewItem from '../review-item/review-item';
-
-// type ReviewsListProps = {
-//   id: string;
-// }
+import { getMostRecentReviews } from '../../utils';
 
 type ReviewsListProps = {
   reviewsArr: ReviewItemType[];
+  offerId?: string;
 }
 
-function ReviewsList({reviewsArr} : ReviewsListProps): JSX.Element | undefined {
+function ReviewsList({reviewsArr, offerId} : ReviewsListProps): JSX.Element | undefined {
 
-  // function findReviewById(review: ReviewItemType) {
-  //   if (id != undefined && review.id != undefined) {
-  //     return review.id === id;
-  //   }
-  // }
+  let sortedByDateReviewsArr = getMostRecentReviews(reviewsArr);
 
-  //const reviewsArr: ReviewItemType[] | undefined = generatedReviews.find(findReviewById);
+  if(sortedByDateReviewsArr.length > 10) {
+    sortedByDateReviewsArr = sortedByDateReviewsArr.slice(0, 10);
+  }
 
-  if (reviewsArr !== undefined && reviewsArr.length > 0) {
+  if (sortedByDateReviewsArr !== undefined && sortedByDateReviewsArr.length > 0) {
     return (
       <section className="offer__reviews reviews">
         <h2 className="reviews__title">
-          Reviews · <span className="reviews__amount">{reviewsArr.length}</span>
+          Reviews · <span className="reviews__amount">{sortedByDateReviewsArr.length}</span>
         </h2>
         <ul className="reviews__list">
-          {reviewsArr.map((review) => (
+          {sortedByDateReviewsArr.map((review) => (
             <ReviewItem key={review.id} {...review}/>
           ))}
         </ul>
-        <ReviewForm />
+        {offerId && <ReviewForm offerId={offerId}/>}
       </section>
-
     );
   }
   return undefined;

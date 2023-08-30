@@ -4,8 +4,10 @@ import { SortingMode, SORTING_MODES_ARR } from '../../const';
 import cn from 'classnames';
 import { sortPriceHighToLow, sortPriceLowToHigh, topRatedFirst } from '../../utils';
 import { AccomodationListItem } from '../../types/accomodation-item';
-import { fillOffersList, changeSortingMode } from '../../store/action';
+//import { fillOffersList, changeSortingMode } from '../../store/action';
 import {useOnClickOutside} from 'usehooks-ts';
+import { switchCity, switchSortingMode, fillOffersList } from '../../store/offers-process/offers-process.slice';
+import { getSortingMode } from '../../store/offers-process/offers-process.selector';
 
 type SortingProps = {
   offersList: AccomodationListItem[];
@@ -14,7 +16,7 @@ type SortingProps = {
 function Sorting({ offersList }: SortingProps): JSX.Element {
   const [optionsListToggle, setOptionsListToggle] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const sortingMode = useAppSelector((state) => state.sortingMode);
+  const sortingMode = useAppSelector(getSortingMode);
   const initialOffersList = useRef(offersList).current;
 
   const formRef = useRef(null);
@@ -28,7 +30,7 @@ function Sorting({ offersList }: SortingProps): JSX.Element {
   function handleSortClick(e: React.MouseEvent<HTMLElement>) {
     const target = e.target as Element;
     const sortingTitle = target.textContent as SortingMode;
-    dispatch(changeSortingMode(sortingTitle));
+    dispatch(switchSortingMode(sortingTitle));
 
     switch (sortingTitle) {
       case SortingMode.default:
