@@ -3,10 +3,9 @@ import { useParams } from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list';
 import Map from '../../components/map/map';
-import { AppRoute, MapRole } from '../../const';
+import { MapRole } from '../../const';
 import { useAppSelector } from '../../hooks';
 import PageHeader from '../../components/page-header/page-header';
-import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { fetchDetailedOfferAction, fetchNearbyOffersListAction, fetchReviewsAction } from '../../store/api-actions';
@@ -59,6 +58,8 @@ function OfferPage(): JSX.Element {
     slicedNearbyOffersList.push(currentOfferBriefInfo);
   }
 
+  const role = FavoritesToggleRole.DetailedOfferFavoriteToggle;
+
   return (
     <div className="page">
       <PageHeader />
@@ -90,7 +91,7 @@ function OfferPage(): JSX.Element {
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer?.title}</h1>
 
-                {id && offer?.isFavorite &&<OfferFavoriteToggle offerId={id} role={FavoritesToggleRole.DetailedOfferFavoriteToggle} isFavorite={offer.isFavorite} />}
+                {id && offer?.isFavorite &&<OfferFavoriteToggle offerId={id} role={role} isFavorite={offer.isFavorite} />}
 
               </div>
               <div className="offer__rating rating">

@@ -7,8 +7,6 @@ import { getAuthorizationStatus } from '../../store/user-process/user-process.se
 import { FavoritesToggleRole } from '../../const';
 import { changeBriefOfferFavoriteStatusAction, changeDetailedOfferFavoriteStatusAction } from '../../store/api-actions';
 import { FavoriteStatus } from '../../const';
-import { Navigate } from 'react-router-dom';
-
 
 type OfferFavoriteToggleProps = {
   offerId: string,
