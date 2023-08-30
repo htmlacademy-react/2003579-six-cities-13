@@ -15,7 +15,7 @@ import { getAuthorizationStatus } from '../../store/user-process/user-process.se
 import { getOffersLoadingStatus } from '../../store/offers-process/offers-process.selector';
 import {useEffect} from 'react';
 import { useAppDispatch } from '../../hooks';
-import { fetchOffersAction } from '../../store/api-actions';
+import { checkAuthAction, fetchOffersAction } from '../../store/api-actions';
 
 function App(): JSX.Element {
 
@@ -23,11 +23,12 @@ function App(): JSX.Element {
   const offersLoadingStatus = useAppSelector(getOffersLoadingStatus);
   const dispatch = useAppDispatch();
 
- useEffect(() => {
-  dispatch(fetchOffersAction());
- },[])
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+    dispatch(checkAuthAction());
+  },[]);
 
-  if(/*authStatus === AuthorizationStatus.Unknown ||*/ offersLoadingStatus === true) {
+  if(authStatus === AuthorizationStatus.Unknown || offersLoadingStatus === true) {
     return (
       <LoadingScreen />
     );

@@ -30,7 +30,7 @@ function OfferPage(): JSX.Element {
   }, [id, dispatch]);
 
   const offer = useAppSelector(getCurrentOffer);
-  const isOfferDetailLoading = useAppSelector(getCurrentOfferLoadingStatus)
+  const isOfferDetailLoading = useAppSelector(getCurrentOfferLoadingStatus);
   const nearbyOffers = useAppSelector(getNearbyOffersList);
   const offersList = useAppSelector(getOffersList);
   const offerReviews = useAppSelector(getReviewsList);
@@ -39,7 +39,7 @@ function OfferPage(): JSX.Element {
     return <LoadingScreen />;
   }
 
-  let cityName: string;
+  let cityName = '';
   if (offer && id && !isOfferDetailLoading) {
     cityName = offer.city.name;
   } /*else {
@@ -143,7 +143,7 @@ function OfferPage(): JSX.Element {
                   <p className="offer__text">{offer?.description}</p>
                 </div>
               </div>
-              <ReviewsList reviewsArr={offerReviews} />
+              <ReviewsList offerId={id} reviewsArr={offerReviews} />
             </div>
           </div>
           <Map city={cityName} points={slicedNearbyOffersList} selectedPointId={offer?.id} role={MapRole.OfferPageMap} />

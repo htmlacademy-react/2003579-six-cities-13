@@ -6,3 +6,4 @@ export const getOffersList = (state: State): AccomodationListItem[] => state[Nam
 export const getCity = (state: State) : Cities => state[NameSpace.Offers].city;
 export const getSortingMode = (state: State) : SortingMode => state[NameSpace.Offers].sortingMode;
 export const getOffersLoadingStatus = (state: State): boolean => state[NameSpace.Offers].isOffersListLoading;
+export const getOffersLoadingErrorStatus = (state: State) : boolean => state[NameSpace.Offers].hasOffersLoadingError;

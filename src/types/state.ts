@@ -12,6 +12,7 @@ export type UserProcess = {
 export type FavoritesProcess = {
   favoritesList: AccomodationListItem[];
   isFavoritesListLoading: boolean;
+  hasFavoritesLoadingError: boolean;
 }
 
 export type OffersProcess = {
@@ -19,21 +20,26 @@ export type OffersProcess = {
   offersList: AccomodationListItem[];
   isOffersListLoading: boolean;
   sortingMode: SortingMode;
+  hasOffersLoadingError: boolean;
 }
 
 export type NearbyOffersProcess = {
   nearbyOffersList: AccomodationListItem[];
-  isNearbyOffersListLoading: boolean;
+  hasNearbyOffersFetchingError: boolean;
 }
 
 export type CurrentOfferProcess = {
   currentOffer: AccomodationDetailedItem | null;
   isCurrentOfferDataLoading: boolean;
+  hasCurrentOfferLoadingError: boolean;
 }
 
 export type ReviewsProcess = {
   reviewsList: ReviewItemType[];
   isReviewsListLoading: boolean;
+  hasReviewsListFetchingError: boolean;
+  isReviewSending: boolean;
+  hasReviewSendingError: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

@@ -1,3 +1,5 @@
+import { ChosenBriefOfferFavoriteStatusResponse, ChosenDetailedOfferFavoriteStatusResponse } from './types/chosen-offer-favorite-status-response';
+
 export enum AppRoute {
   Favorites = '/favorites',
   Login = '/login',
@@ -65,3 +67,14 @@ export enum NameSpace {
   Reviews = 'REVIEWS',
 }
 
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'];
+
+export const EMPTY_FAVORITES_RESPONSE : ChosenBriefOfferFavoriteStatusResponse | ChosenDetailedOfferFavoriteStatusResponse = {
+  chosenOffer: null,
+  favoritesList: [],
+};
+
+export enum FavoriteStatus {
+  InFavorites = 1,
+  OutOfFavorites = 0,
+}

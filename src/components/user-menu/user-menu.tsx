@@ -2,12 +2,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { getFavoritesList } from '../../store/favorites-process/favorites-process.selector';
+import { getEmail } from '../../services/email';
 
 function UserMenu(): JSX.Element {
 
   const dispatch = useAppDispatch();
-  const favoritesCount = useAppSelector((state) => state.favoritesList).length;
-  const userMail = useAppSelector((state) => state.userMail);
+  const favoritesCount = useAppSelector(getFavoritesList).length;
+  const userMail = useAppSelector(getEmail);
 
   return (
     <nav className="header__nav">
@@ -21,13 +23,13 @@ function UserMenu(): JSX.Element {
           </Link>
         </li>
         <li className="header__nav-item">
-          <a className="header__nav-link" href="#" onClick={(evt) => {
+          <Link className="header__nav-link" to={AppRoute.Login} onClick={(evt) => {
             evt.preventDefault();
             dispatch(logoutAction());
           }}
           >
             <span className="header__signout">Sign out</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

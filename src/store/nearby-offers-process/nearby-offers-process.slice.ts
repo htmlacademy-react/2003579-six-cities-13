@@ -5,7 +5,7 @@ import { NearbyOffersProcess } from '../../types/state';
 
 const initialState: NearbyOffersProcess = {
   nearbyOffersList: [],
-  isNearbyOffersListLoading: false,
+  hasNearbyOffersFetchingError: false,
 };
 
 export const nearbyOffersProcess = createSlice({
@@ -15,11 +15,14 @@ export const nearbyOffersProcess = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchNearbyOffersListAction.pending, (state) => {
-        state.isNearbyOffersListLoading = true;
+        state.hasNearbyOffersFetchingError = false;
       })
       .addCase(fetchNearbyOffersListAction.fulfilled, (state, action) => {
-        state.isNearbyOffersListLoading = false;
+        state.hasNearbyOffersFetchingError = false;
         state.nearbyOffersList = action.payload;
+      })
+      .addCase(fetchNearbyOffersListAction.rejected, (state) => {
+        state.hasNearbyOffersFetchingError = true;
       });
   }
 });
